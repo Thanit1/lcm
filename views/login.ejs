@@ -1,0 +1,40 @@
+<%- include('head')%>
+<body class=""> 
+  <!-- header -->
+    <%- include('navbar2.ejs') %>
+  <!-- header -->
+  <div class="container-fluid vh-100 mt-5">
+    <br>
+    <div class="container col-3 mt-5">
+      <main class="form-signin w-100 m-auto ">
+        <form action="/login" method="POST">
+          <h1 class="h3 mt-5 mb-3 fw-normal text-center">Sign in</h1>
+          <div class="form-floating">
+            <input type="email" class="form-control" name="user_email" id="user_email" placeholder="name@example.com" required>
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" name="user_pass" id="user_pass" placeholder="Password" required>
+            <label for="floatingPassword">Password</label>
+          </div>
+          <% if (locals.login_errors) { login_errors.forEach(function(error_msg){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= error_msg %>
+            </div>
+          <% }); } %>
+          <% if(locals.register_success){ %>
+            <div class="alert alert-success" role="alert">
+                สมัครสมาชิกสำเร็จ
+            </div>
+          <%  } %>
+  
+          <button class="btn btn-primary w-100 py-2 my-3" type="submit">Sign in</button>
+        </form>
+      </main>
+  
+    </div>
+
+  </div>
+  
+</body>
+<%- include('footer')%>
