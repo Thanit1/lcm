@@ -52,14 +52,12 @@ app.get('/', (req, res) => {
     }
 
 });
-
 app.get('/register', ifLoggedin, (req, res) => {
     res.render('register', {
         register_error: [],
         old_data: {},
     });
 });
-
 app.get('/login', ifLoggedin, (req, res) => {
 
     if (req.query.register === 'success') {
@@ -78,7 +76,6 @@ app.get('/login', ifLoggedin, (req, res) => {
 
 
 });
-
 app.post('/login', ifLoggedin, [
     body('user_email').custom((value) => {
         return dbConnection.query('SELECT email FROM users WHERE email=$1', [value])
@@ -125,7 +122,6 @@ app.post('/login', ifLoggedin, [
         });
     }
 });
-
 app.post('/register', ifLoggedin, [
     body('user_email', 'Invalid email address!').isEmail().custom((value) => {
         return dbConnection.query('SELECT email FROM users WHERE email=$1', [value])
@@ -172,7 +168,6 @@ app.post('/register', ifLoggedin, [
         });
     }
 });
-
 app.get('/index', ifNotLoggedin, (req, res) => {
     dbConnection.query("SELECT * FROM users WHERE id=$1", [req.session.userID], (err, result) => {
         if (err) {
@@ -183,7 +178,6 @@ app.get('/index', ifNotLoggedin, (req, res) => {
         res.render('index', { username });
     });
 });
-
 app.post('/addBoard', ifNotLoggedin, (req, res, next) => {
     const { switchname, tokenboard, user_email } = req.body;
 
@@ -196,8 +190,6 @@ app.post('/addBoard', ifNotLoggedin, (req, res, next) => {
         res.redirect('/index'); // ลิ้งไปยังหน้าแอปหลักหลังจากเพิ่มข้อมูลเรียบร้อย
     });
 });
-
-
 app.post('/addSwitch', ifNotLoggedin, (req, res, next) => {
     const { nameSw, token, pinid } = req.body;
     const off = "off"
@@ -270,7 +262,6 @@ app.get('/getSwitch/:username', ifNotLoggedin, async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 app.get('/getbord/:username', ifNotLoggedin, async (req, res) => {
     try {
         const username = req.params.username;
@@ -282,7 +273,6 @@ app.get('/getbord/:username', ifNotLoggedin, async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 app.get('/getSwitch1/:token', ifNotLoggedin, async (req, res) => {
     try {
         const token = req.params.token;
@@ -347,6 +337,65 @@ app.post('/controller', ifNotLoggedin, (req, res, next) => {
         });
     });
 });
+
+app.post('/addtime', ifNotLoggedin, (req, res,) => {
+    const { date, minutes, time, token, pin } = req.body;
+    const alltime = date + "|" + time + ":" + minutes;
+    // ค้นหาโทเคนที่ตรงกับข้อมูลที่รับเข้ามา
+    dbConnection.query("SELECT * FROM boardcontroller WHERE token = $1 AND pin = $2", [token, pin], (err, result) => {
+        if (err) {
+            return next(err);  // ส่งข้อผิดพลาดไปยัง middleware ถัดไป
+        }
+
+        if (result.rows.length > 0) {
+            // อัพเดตสถานะของพินที่ตรงกัน
+            dbConnection.query("UPDATE boardcontroller SET timeoff = $1 WHERE token = $2 AND pin = $3", [alltime, token, pin], (err, result) => {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/index')
+            });
+        } else {
+            return res.status(403).send('Incorrect token or pin');
+        }
+    });
+
+});
+
+app.post('/allgroup', ifNotLoggedin, (req, res,) => {
+    const {  groupname, email } = req.body;
+    dbConnection.query("INSERT INTO allGroup (groupName, email, timeon,timeoff,onEveryDay,offEveryDay) VALUES ($1,$2,null,null,null,null)", [groupname, email], (err, result) => {
+        if (err) {
+            return next(err);
+        }
+
+        res.redirect('/index')
+    });
+
+});
+pp.post('/updatedgroup', ifNotLoggedin, (req, res,) => {
+    const { timeon,timeoff,onEveryDay,offEveryDay, groupname, email } = req.body;
+    // ค้นหาโทเคนที่ตรงกับข้อมูลที่รับเข้ามา
+    dbConnection.query("SELECT * FROM allGroup WHERE email = $1 AND groupName = $2", [email, groupname], (err, result) => {
+        if (err) {
+            return next(err);  // ส่งข้อผิดพลาดไปยัง middleware ถัดไป
+        }
+
+        if (result.rows.length > 0) {
+            // อัพเดตสถานะของพินที่ตรงกัน
+            dbConnection.query("UPDATE allGroup SET timeon = $1 , timeoff = $2, onEveryDay = $3, offEveryDay = $4 WHERE email = $5 AND groupName = $6", [timeon,timeoff,onEveryDay,offEveryDay,email, groupname], (err, result) => {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/index')
+            });
+        } else {
+            return res.status(403).send('Incorrect token or pin');
+        }
+    });
+
+});
+
 app.post('/swcontrol', (req, res) => {
     const { token, pin, status } = req.body;
 
@@ -421,29 +470,7 @@ app.post('/swcontrol1', (req, res, next) => {
     });
 });
 
-app.post('/addtime', ifNotLoggedin, (req, res,) => {
-    const { date, minutes, time, token, pin } = req.body;
-    const alltime = date + "|" + time + ":" + minutes;
-    // ค้นหาโทเคนที่ตรงกับข้อมูลที่รับเข้ามา
-    dbConnection.query("SELECT * FROM boardcontroller WHERE token = $1 AND pin = $2", [token, pin], (err, result) => {
-        if (err) {
-            return next(err);  // ส่งข้อผิดพลาดไปยัง middleware ถัดไป
-        }
 
-        if (result.rows.length > 0) {
-            // อัพเดตสถานะของพินที่ตรงกัน
-            dbConnection.query("UPDATE boardcontroller SET timeoff = $1 WHERE token = $2 AND pin = $3", [alltime, token, pin], (err, result) => {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('/index')
-            });
-        } else {
-            return res.status(403).send('Incorrect token or pin');
-        }
-    });
-
-});
 
 function updated_oNTime() {
 
