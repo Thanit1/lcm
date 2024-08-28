@@ -17,6 +17,7 @@
         .light-off {
             background-color: gray;
         }
+
         #custom-datetime {
             padding: 10px;
             border: 2px solid #ccc;
@@ -30,6 +31,7 @@
         #custom-datetime:focus {
             border-color: #007BFF;
         }
+
         input[type="datetime-local"] {
             width: 100%;
             padding: 10px;
@@ -42,18 +44,8 @@
     <body>
         <%- include('navbar2.ejs') %>
             <br><br><br><br><br>
-            <!-- <form action="/addSwitch" method="POST" novalidate onsubmit="generateToken()">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <label for="recipient-name" class="col-form-label">ชื่อ:</label>
-                <input type="text" name="switchname" class="form-control" id="recipient-name">
-                <input type="hidden" class="d-none" name="tokenboard" id="tokenboard">
-                <button type="submit" class="btn btn-primary">ยืนยัน</button>
-            </div>
-        </div>
-    </form> -->
             <div class="container-xxl border border-secondary rounded">
-               <!--  <h1>
+                <!--  <h1>
                     <%= username %>
                 </h1> -->
                 <form action="/addBoard" method="POST" novalidate>
@@ -87,15 +79,15 @@
                         </div>
                     </div>
                 </form>
-            <!-- ส่วนของการแสดงผลสวิตช์ -->
-            <div id="Switchcontol"></div>
-           
-            
-        </div>
+                <!-- ส่วนของการแสดงผลสวิตช์ -->
+                <div id="Switchcontol"></div>
 
-            
+
+            </div>
+
+
             <script>
-              /* ส่วนของการสร้างtoken */
+                /* ส่วนของการสร้างtoken */
                 async function generateToken() {
                     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                     const tokenLength = 25;
@@ -114,7 +106,7 @@
 
 
                 /* ส่วนของการแสดงผลสวิตช์ และควบคุมการเปิดปิด */
-                
+
                 window.addEventListener('DOMContentLoaded', async () => {
                     try {
                         const usernameBoard = '<%= username %>';
@@ -126,78 +118,80 @@
                         if (boards.length > 0) {
                             for (const board of boards) {
                                 const cardHTML = `
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample${board.token}"
-                        aria-expanded="false" aria-controls="collapseExample${board.token}">
-                        <h2>${board.name}</h2>
-                    </button>
-                    
-                    <div class="collapse" id="collapseExample${board.token}">
-
                         <div class="card card-body">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSw1${board.id_board}">ลบบอร์ด</button>
-                                <div class="modal fade" id="addSw1${board.id_board}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="">
+                                <h2>${board.name}</h2>
+                                <div class="dropstart">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Dropstart
+                                    </button>
+                                        <ul class="dropdown-menu">
+                                           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSw1${board.id_board}">ลบบอร์ด</button>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSw${board.id_board}">เพิ่ม สวิตช์</button>                          
+                                        </ul>  
+                                </div>
+
+                                    <div class="modal fade" id="addSw1${board.id_board}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="addSw">ลบบอร์ด</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form action="/DELETE_board" method="POST">
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name="token" value="${board.token}">
+                                                
+                                                    </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                                                            <button type="submit" class="btn btn-primary">ลบบอร์ด</button>
+                                                        </div>
+                                                </form>
+                                            </div>
+                                        
+                                        </div>
+                                    </div>
+
+                                 <div class="modal fade" id="addSw${board.id_board}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
+                                            
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="addSw">ลบบอร์ด</h1>
+                                                <h1 class="modal-title fs-5" id="addSw">เพิ่มสวิตช์</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form action="/DELETE_board" method="POST">
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="token" value="${board.token}">
                                             
-                                                </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                                                        <button type="submit" class="btn btn-primary">ลบบอร์ด</button>
+                                            <form action="/addSwitch" method="POST">
+                                                <div class="modal-body">
+                                                    <input type="text" name="token" value="${board.token}">
+                                                    <div class="mb-3">
+                                                        <label for="recipient-name" class="col-form-label">ชื่อสวิตช์:</label>
+                                                        <input type="text" class="form-control" name="nameSw" id="nameSw">
                                                     </div>
+                                                    <div class="input-group mb-3">
+                                                        <label class="input-group-text" for="inputGroupSelect01">Pin</label>
+                                                        <select class="form-select" name="pinid" id="pinid${board.id_board}">
+                                                            <option selected>Choose...</option>
+                                                            <option value="1">One</option>
+                                                            <option value="2">Two</option>
+                                                            <option value="3">Three</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Send message</button>
+                                                </div>
                                             </form>
                                         </div>
-                                    
                                     </div>
                                 </div>
-
-
                             
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSw${board.id_board}">เพิ่ม สวิตช์</button>
-
-                            <div class="modal fade" id="addSw${board.id_board}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="addSw">เพิ่มสวิตช์</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        
-                                        <form action="/addSwitch" method="POST">
-                                            <div class="modal-body">
-                                                <input type="text" name="token" value="${board.token}">
-                                                <div class="mb-3">
-                                                    <label for="recipient-name" class="col-form-label">ชื่อสวิตช์:</label>
-                                                    <input type="text" class="form-control" name="nameSw" id="nameSw">
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <label class="input-group-text" for="inputGroupSelect01">Pin</label>
-                                                    <select class="form-select" name="pinid" id="pinid${board.id_board}">
-                                                        <option selected>Choose...</option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Send message</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
                             </div>
                             <div class="container mt-5 row justify-content-center" id="SwitchAll${board.id_board}"></div>
                         </div>
-                    </div>
+                    
                 `;
                                 switchControl.insertAdjacentHTML('beforeend', cardHTML);
 
@@ -234,7 +228,7 @@
                                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" >
                                                         <label class="form-check-label" for="flexCheckChecked">Checked checkbox</label>
                                                     </div>`}
-                                        </div>  </li>
+                                         </div>  </li>
                                             </ul>
                                         </div>   
                                     </div>
@@ -446,10 +440,10 @@
                         console.error('Error:', error);
                     }
                 }
-                
+
             </script>
-             
-             
-           </body>
+
+
+    </body>
 
     </html>

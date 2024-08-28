@@ -6,12 +6,18 @@ const { body, validationResult } = require('express-validator');
 const dbConnection = require('./database');
 const app = express();
 const port = 3000;
+const moment = require('moment');
+
+setInterval(updated_oNTime, 6000); 
+setInterval(updated_oFFTime, 6000); 
+
 app.use(express.urlencoded({ extended: false }));
 
 // SET OUR VIEWS AND VIEW ENGINE
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.json());
+
 // APPLY COOKIE SESSION MIDDLEWARE
 app.use(cookieSession({
     name: 'session',
@@ -269,7 +275,7 @@ app.get('/getbord/:username', ifNotLoggedin, async (req, res) => {
     try {
         const username = req.params.username;
         const result = await dbConnection.query('SELECT * FROM boards WHERE email = $1 ORDER BY id_board ASC', [username]);
-
+       // console.log(result.rows)
         res.json(result.rows);
     } catch (err) {
         console.error(err);
@@ -318,7 +324,6 @@ app.post('/controller1', ifNotLoggedin, (req, res, next) => {
         }
     });
 });
-
 
 app.post('/controller', ifNotLoggedin, (req, res, next) => {
     const { token } = req.body;
@@ -385,7 +390,6 @@ app.post('/lambController', (req, res) => {
         });
 });
 
-
 app.post('/swcontrol1', (req, res, next) => {
     const { token, status1, status2, status3 } = req.body;
     const pins = [1, 2, 3];
@@ -441,7 +445,57 @@ app.post('/addtime', ifNotLoggedin, (req, res,) => {
 
 });
 
-app.get('/logout', (req, res) => {
+function updated_oNTime() {
+
+    const currentTime = moment().format('YYYY-MM-DD|HH:mm');
+
+    dbConnection.query("SELECT id, token,pin , timeon FROM boardcontroller", (err, result) => {
+        if (err) {
+            console.error('Error querying the database:', err);
+            return;
+        }
+
+        result.rows.forEach(row => {
+            if (row.timeon === currentTime) {
+                
+                dbConnection.query("UPDATE boardcontroller SET status = 1 ,timeon = $1 WHERE id = $2", [null,row.id], (updateErr, updateResult) => {
+                    if (updateErr) {
+                        console.error('Error updating status:', updateErr);
+                    } else {
+                        console.log(`Status updated to 1 for token: ${row.token} and pin: ${row.pin}`);
+                    }
+                });
+            }
+        });
+    });
+}
+
+function updated_oFFTime() {
+
+    const currentTime = moment().format('YYYY-MM-DD|HH:mm');
+    
+    dbConnection.query("SELECT id, token,pin , timeoff FROM boardcontroller", (err, result) => {
+        if (err) {
+            console.error('Error querying the database:', err);
+            return;
+        }
+
+        result.rows.forEach(row => {
+            if (row.timeoff === currentTime) {
+                
+                dbConnection.query("UPDATE boardcontroller SET status = 0 ,timeoff = $1 WHERE id = $2", [null,row.id], (updateErr, updateResult) => {
+                    if (updateErr) {
+                        console.error('Error updating status:', updateErr);
+                    } else {
+                        console.log(`Status updated to 1 for token: ${row.token} and pin: ${row.pin}`);
+                    }
+                });
+            }
+        });
+    });
+}
+
+app.get('/logout', (req, res) => {  
     req.session = null;
     res.redirect('/login');
 });
