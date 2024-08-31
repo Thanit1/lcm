@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
                 return next(err);
             }
             res.render('index', {
-                username: result.rows[0].name,
+                username: result.rows[0].email,
             });
         });
     }
@@ -192,16 +192,23 @@ app.post('/addBoard', ifNotLoggedin, (req, res, next) => {
 });
 app.post('/addSwitch', ifNotLoggedin, (req, res, next) => {
     const { nameSw, token, pinid } = req.body;
-    const off = "off"
-    dbConnection.query("INSERT INTO boardcontroller (name, token, pin,status,watt,timeoff) VALUES ($1,$2,$3,0,0,$4)", [nameSw, token, pinid, off], (err, result) => {
-        if (err) {
-            return next(err);
+    console.log(req.body);
+    const off = "off";
+    const watt = 0; // หรือค่าที่คุณต้องการ
+    const startlamd = 0; // หรือค่าที่คุณต้องการ
+
+    dbConnection.query(
+        "INSERT INTO boardcontroller (name, token, pin, status, watt, timeoff, timeon, startlamd, group_name) VALUES ($1, $2, $3, 0, $4, $5, $6,$7 , $8)",
+        [nameSw, token, pinid, watt, off,off, startlamd, off],
+        (err, result) => {
+            if (err) {
+                return next(err);
+            }
+            res.redirect('/index');
         }
-
-        res.redirect('/index')
-    });
-
+    );
 });
+
 app.post('/DELETE_Sw', ifNotLoggedin, (req, res,) => {
     const { token, pin } = req.body;
     if (!token || !pin) {
@@ -338,29 +345,70 @@ app.post('/controller', ifNotLoggedin, (req, res, next) => {
     });
 });
 
-app.post('/addtime', ifNotLoggedin, (req, res,) => {
-    const { date, minutes, time, token, pin } = req.body;
-    const alltime = date + "|" + time + ":" + minutes;
-    // ค้นหาโทเคนที่ตรงกับข้อมูลที่รับเข้ามา
-    dbConnection.query("SELECT * FROM boardcontroller WHERE token = $1 AND pin = $2", [token, pin], (err, result) => {
-        if (err) {
-            return next(err);  // ส่งข้อผิดพลาดไปยัง middleware ถัดไป
-        }
+app.post('/addtime', ifNotLoggedin, (req, res, next) => {
+    const { date, minutes, time, switchStatus} = req.body;
+    const switches = req.body['switches[]'];
+    console.log(req.body)
+    
 
-        if (result.rows.length > 0) {
-            // อัพเดตสถานะของพินที่ตรงกัน
-            dbConnection.query("UPDATE boardcontroller SET timeoff = $1 WHERE token = $2 AND pin = $3", [alltime, token, pin], (err, result) => {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('/index')
-            });
-        } else {
-            return res.status(403).send('Incorrect token or pin');
-        }
+    const alltime = `${date}|${time}:${minutes}`;
+    const updateField = switchStatus === 'private' ? 'timeon' : 'timeoff';
+
+    // สร้าง array ของ query promises
+    const queries = switches.map(switchData => {
+        const [token, pin] = switchData.split('|');
+        return dbConnection.query(
+            `UPDATE boardcontroller SET ${updateField} = $1 WHERE token = $2 AND pin = $3`,
+            [alltime, token, pin]
+        );
     });
 
+    // รอให้ทุก query ทำงานเสร็จ
+    Promise.all(queries)
+        .then(() => {
+            res.redirect('/index');
+        })
+        .catch(err => {
+            next(err);
+        });
 });
+
+
+
+
+app.get('/addtime/:username', (req, res) => {
+    const username = req.params.username;
+    console.log(username);
+    // ดึงข้อมูลบอร์ดที่เชื่อมโยงกับ username
+    dbConnection.query("SELECT token FROM boards WHERE email = $1", [username], (err, boardResult) => {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log(boardResult.rows);
+        // ดึง token จากผลลัพธ์บอร์ด
+        const tokens = boardResult.rows.map(row => row.token);
+        if (tokens.length === 0) {
+            return res.status(404).send('No boards found for the username');
+        }
+
+        // สร้างคำสั่ง SQL สำหรับดึงข้อมูลสวิตช์ที่เชื่อมโยงกับหลาย token
+        const placeholders = tokens.map((_, i) => `$${i + 1}`).join(', ');
+        const query = `SELECT * FROM boardcontroller WHERE token IN (${placeholders})`;
+
+        // ดึงข้อมูลสวิตช์ที่เชื่อมโยงกับ tokens
+        dbConnection.query(query, tokens, (err, switchResult) => {
+            if (err) {
+                return console.error(err.message);
+            }
+
+            // ส่งข้อมูลสวิตช์เป็น JSON
+            res.json(switchResult.rows);
+        });
+    });
+});
+
+
+
 
 app.post('/allgroup', ifNotLoggedin, (req, res,) => {
     const {  groupname, email } = req.body;
@@ -373,14 +421,13 @@ app.post('/allgroup', ifNotLoggedin, (req, res,) => {
     });
 
 });
-pp.post('/updatedgroup', ifNotLoggedin, (req, res,) => {
+app.post('/updatedgroup', ifNotLoggedin, (req, res,) => {
     const { timeon,timeoff,onEveryDay,offEveryDay, groupname, email } = req.body;
     // ค้นหาโทเคนที่ตรงกับข้อมูลที่รับเข้ามา
     dbConnection.query("SELECT * FROM allGroup WHERE email = $1 AND groupName = $2", [email, groupname], (err, result) => {
         if (err) {
             return next(err);  // ส่งข้อผิดพลาดไปยัง middleware ถัดไป
         }
-
         if (result.rows.length > 0) {
             // อัพเดตสถานะของพินที่ตรงกัน
             dbConnection.query("UPDATE allGroup SET timeon = $1 , timeoff = $2, onEveryDay = $3, offEveryDay = $4 WHERE email = $5 AND groupName = $6", [timeon,timeoff,onEveryDay,offEveryDay,email, groupname], (err, result) => {
@@ -469,7 +516,6 @@ app.post('/swcontrol1', (req, res, next) => {
         }
     });
 });
-
 
 
 function updated_oNTime() {

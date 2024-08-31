@@ -112,6 +112,7 @@
                         const usernameBoard = '<%= username %>';
                         const responseBoard = await fetch(`/getbord/${usernameBoard}`);
                         const boards = await responseBoard.json();
+
                         const switchControl = document.getElementById('Switchcontol');
 
                         if (boards.length > 0) {
@@ -190,6 +191,7 @@
                             </div>
                             <div class="container mt-5 row justify-content-center" id="SwitchAll${board.id_board}"></div>
                         </div>
+                        <br><br>
                     
                 `;
                                 switchControl.insertAdjacentHTML('beforeend', cardHTML);
@@ -387,8 +389,7 @@
                                             </button>
                                         </form>
                                         </div>
-                            </div>
-                            
+                            </div> 
                         `;
                                         switchAll.insertAdjacentHTML('beforeend', switchHTML);
                                     });
@@ -431,6 +432,7 @@
                         const data = await response.json();
                         statusElement.textContent = data.status;
                         buttonElement.textContent = data.status == 0 ? 'Turn On' : 'Turn Off';
+
                         const lightBulb = switchForm.closest('.card-body').querySelector('.light-bulb');
                         lightBulb.classList.toggle('light-off', data.status == 0);
                         lightBulb.classList.toggle('light-on', data.status != 0);

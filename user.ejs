@@ -1,132 +1,130 @@
-<%- include('head')%>
-<body>
-      <!-- header -->
-      <%- include('navbar2.ejs') %>
-      <!-- header -->
-    <!-- เพิ่มบอร์ด -->    
-    <br><br><br><br>
-    <div class="my-5">
-        <form action="/addboard" method="POST" novalidate>
-            <center>
-                <button type="button" onclick="generateToken()" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal" data-bs-whatever="@fat">เพิ่ม Board</button>
-            </center>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <input type="hidden" class="d-none" name="user_email" id="user_email" value="<%= username %>">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">เพิ่มฟาร์ม</h5>
-                            <input type="hidden" class="d-none" name="tokenboard" id="tokenboard" value="">
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">ชื่อ:</label>
-                                    <input type="text" name="boardname" class="form-control" id="recipient-name">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="message-text" class="col-form-label">คอมเมนท์:</label>
-                                    <textarea name="message" class="form-control" id="message-text"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                            <button type="submit" class="btn btn-primary">ยืนยัน</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <!-- แสดงบอร์ด -->
-    <center>
-        <div class="container mt-5  row justify-content-center" id="boardContainer">
-            <!-- ที่นี่จะเป็นตำแหน่งที่บอร์ดจะถูกแทรก -->
-        </div>
-    </center>
-
-    <!-- footer -->
-    <div class="container-fluid fixed-bottom ">
-        <footer class="py-3 my-4">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">เกี่ยวกับ</a></li>
-            </ul>
-            <p class="text-center text-body-secondary">© 2024 FarmHug</p>
-        </footer>
-    </div>
-    
-    <script>
+<div id="unique-checkbox" class="checkbox-wrapper-35">
+    <input class="switch" type="checkbox" id="switch" name="switch" value="private">
+    <label for="switch">
+      <span class="switch-x-text">This is </span>
+      <span class="switch-x-toggletext">
+        <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Off</span>
+        <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>On</span>
+      </span>
+    </label>
+</div>
 
 
+#unique-checkbox .switch {
+    display: none;
+  }
 
-        async function generateToken() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            const tokenLength = 25;
-            let token = '';
-            let tokenExists = true;
+  #unique-checkbox .switch + label {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #78768d;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 15px;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-            while (tokenExists) {
-                token = generateUniqueToken(characters, tokenLength);
-                tokenExists = await isTokenExist(token);
-            }
+  #unique-checkbox .switch + label::before,
+  #unique-checkbox .switch + label::after {
+    content: '';
+    display: block;
+  }
 
-            document.getElementById('tokenboard').value = token;
-        }
+  #unique-checkbox .switch + label::before {
+    background-color: #05012c;
+    border-radius: 500px;
+    height: 15px;
+    margin-right: 8px;
+    -webkit-transition: background-color 0.125s ease-out;
+    transition: background-color 0.125s ease-out;
+    width: 25px;
+  }
 
-        function generateUniqueToken(characters, length) {
-            let token = '';
-            for (let i = 0; i < length; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                token += characters.charAt(randomIndex);
-            }
-            return token;
-        }
+  #unique-checkbox .switch + label::after {
+    background-color: #fff;
+    border-radius: 13px;
+    box-shadow: 0 3px 1px 0 rgba(37, 34, 71, 0.05), 0 2px 2px 0 rgba(37, 34, 71, 0.1), 0 3px 3px 0 rgba(37, 34, 71, 0.05);
+    height: 13px;
+    left: 1px;
+    position: absolute;
+    top: 1px;
+    -webkit-transition: -webkit-transform 0.125s ease-out;
+    transition: -webkit-transform 0.125s ease-out;
+    transition: transform 0.125s ease-out;
+    transition: transform 0.125s ease-out, -webkit-transform 0.125s ease-out;
+    width: 13px;
+  }
 
-        async function isTokenExist(token) {
-            try {
-                const dbConnection = require('./database');
-                const result = await dbConnection.query('SELECT COUNT(*) FROM board WHERE token = $1', [token]);
-                return parseInt(result.rows[0].count) > 0;
-            } catch (error) {
-                console.error('Error checking token existence:', error);
-                return false;
-            }
-        }
+  #unique-checkbox .switch + label .switch-x-text {
+    display: block;
+    margin-right: .3em;
+  }
 
-        window.addEventListener('DOMContentLoaded', async () => {
-            const username = '<%= username %>';
-            const response = await fetch(`/getboards/${username}`);
-            const boards = await response.json();
-            const boardContainer = document.getElementById('boardContainer');
+  #unique-checkbox .switch + label .switch-x-toggletext {
+    display: block;
+    font-weight: bold;
+    height: 15px;
+    overflow: hidden;
+    position: relative;
+    width: 25px;
+  }
 
-            if (boards.length > 0) {
-                boards.forEach(board => {
-                    if (board.email) {
-                        const cardHTML = `
-                    <div class="card mx-2 mt-2 mb-2" style="width: 12rem;">
-                        <div class="card-body shadow p-3">
-                            <a href="/board?neme=${board.token}" class="btn ">     <!-- แก้ไขตรงนี้ -->
-                                <h5 class="card-title">${board.boardname}</h5>
-                                <img src="https://th.bing.com/th/id/OIP.OLOUeELSZE06arST6dzJnwHaNK?rs=1&pid=ImgDetMain" style="width: 50px;" class="card-img-top" alt="">
-                                <p class="card-text">${board.message}</p>
-                            </a>
-                        </div>
-                    </div>`;
-                        boardContainer.insertAdjacentHTML('beforeend', cardHTML);
-                    } else {
-                        console.log('Board email is undefined');
-                    }
-                });
-            } else {
-                boardContainer.innerHTML = '<h3>ยังไม่มีบอร์ด</h3>';
-            }
-        });
-    </script>
+  #unique-checkbox .switch + label .switch-x-unchecked,
+  #unique-checkbox .switch + label .switch-x-checked {
+    left: 0;
+    position: absolute;
+    top: 0;
+    -webkit-transition: opacity 0.125s ease-out, -webkit-transform 0.125s ease-out;
+    transition: opacity 0.125s ease-out, -webkit-transform 0.125s ease-out;
+    transition: transform 0.125s ease-out, opacity 0.125s ease-out;
+    transition: transform 0.125s ease-out, opacity 0.125s ease-out, -webkit-transform 0.125s ease-out;
+  }
 
-</body>
-<%- include('footer')%>
+  #unique-checkbox .switch + label .switch-x-unchecked {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+
+  #unique-checkbox .switch + label .switch-x-checked {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+
+  #unique-checkbox .switch + label .switch-x-hiddenlabel {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  #unique-checkbox .switch:checked + label::before {
+    background-color: #ffb500;
+  }
+
+  #unique-checkbox .switch:checked + label::after {
+    -webkit-transform: translate3d(10px, 0, 0);
+    transform: translate3d(10px, 0, 0);
+  }
+
+  #unique-checkbox .switch:checked + label .switch-x-unchecked {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  #unique-checkbox .switch:checked + label .switch-x-checked {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
