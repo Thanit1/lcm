@@ -74,8 +74,6 @@ app.get('/login', ifLoggedin, (req, res) => {
 
         });
     }
-
-
 });
 app.post('/login', ifLoggedin, [
     body('user_email').custom((value) => {
@@ -192,14 +190,15 @@ app.post('/addBoard', ifNotLoggedin, (req, res, next) => {
     });
 });
 app.post('/addSwitch', ifNotLoggedin, (req, res, next) => {
-    const { nameSw, token, pinid, watt } = req.body;
+    const { nameSw, token, pinid } = req.body;
     console.log(req.body);
     const off = "off";
-    const defaultValue = 0;
-    
+    const watt = 0; // หรือค่าที่คุณต้องการ
+    const startlamd = 0; // หรือค่าที่คุณต้องการ
+
     dbConnection.query(
-        "INSERT INTO boardcontroller (name, token, pin, status, watt, monday, tuesday, wednesday, thursday, friday, saturday, sunday) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
-        [nameSw, token, pinid, defaultValue, watt, off, off, off, off, off, off, off],
+        "INSERT INTO boardcontroller (name, token, pin, status, watt, timeoff, timeon, startlamd, group_name) VALUES ($1, $2, $3, 0, $4, $5, $6,$7 , $8)",
+        [nameSw, token, pinid, watt, off,off, startlamd, off],
         (err, result) => {
             if (err) {
                 return next(err);
@@ -208,7 +207,6 @@ app.post('/addSwitch', ifNotLoggedin, (req, res, next) => {
         }
     );
 });
-
 
 app.post('/DELETE_Sw', ifNotLoggedin, (req, res,) => {
     const { token, pin } = req.body;
@@ -283,21 +281,15 @@ app.get('/getbord/:username', ifNotLoggedin, async (req, res) => {
 });
 app.get('/getSwitch1/:token', ifNotLoggedin, async (req, res) => {
     try {
-        const currentDay = moment().format('dddd').toLowerCase();
         const token = req.params.token;
         const result = await dbConnection.query('SELECT * FROM boardcontroller WHERE token = $1 ORDER BY id ASC', [token]);
-        
         res.json(result.rows);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-app.get('/dayonoff', (req, res) => {
-    const currentDay = moment().format('dddd').toLowerCase(); // ดึงชื่อวันปัจจุบัน
-    const currentDayoff = moment().format('dddd').toLowerCase()+"off"; // ดึงชื่อวันปัจจุบัน
-    res.json({ currentDay: currentDay ,currentDayoff:currentDayoff});
-});
+
 app.post('/controller1', ifNotLoggedin, (req, res, next) => {
     const { token, pinname } = req.body;
     let status = 0;
@@ -353,55 +345,32 @@ app.post('/controller', ifNotLoggedin, (req, res, next) => {
 });
 
 app.post('/addtime', ifNotLoggedin, (req, res, next) => {
-    const { minutes, time, switchStatus } = req.body;
-    let selectedDays = req.body['days[]']; 
-    let switches = req.body['switches[]'];
-    console.log(req.body);
-  
-    if (!Array.isArray(switches)) {
-        switches = [switches];
-    }
+    const { date, minutes, time, switchStatus} = req.body;
+    const switches = req.body['switches[]'];
+    console.log(req.body)
+    
 
-    // Ensure selectedDays is an array
-    if (!Array.isArray(selectedDays)) {
-        selectedDays = [selectedDays];
-    }
+    const alltime = `${date}|${time}:${minutes}`;
+    const updateField = switchStatus === 'private' ? 'timeon' : 'timeoff';
 
-    // Set the time format based on switchStatus
-    const alltime = `${time}:${minutes}`;
-
-    // Determine the appropriate columns to update based on switchStatus
-    const columnPrefix = switchStatus === 'private' ? '' : 'off';
-
-    // Check if any days are selected
-    if (!selectedDays || selectedDays.length === 0) {
-        return res.status(400).send('No days selected');
-    }
-
+    // สร้าง array ของ query promises
     const queries = switches.map(switchData => {
         const [token, pin] = switchData.split('|');
-        
-        // Build the query dynamically based on selected days and column prefix
-        const dayUpdates = selectedDays.map(day => `${day}${columnPrefix} = $1`).join(', ');
-        const sqlQuery = `UPDATE boardcontroller SET ${dayUpdates} WHERE token = $2 AND pin = $3`;
-
         return dbConnection.query(
-            sqlQuery,
+            `UPDATE boardcontroller SET ${updateField} = $1 WHERE token = $2 AND pin = $3`,
             [alltime, token, pin]
         );
     });
 
-    // Execute all the queries
+    // รอให้ทุก query ทำงานเสร็จ
     Promise.all(queries)
-        .then(() => res.redirect('index'))
+        .then(() => {
+            res.redirect('/index');
+        })
         .catch(err => {
-            console.error(err);
-            res.status(500).send('Database error');
+            next(err);
         });
 });
-
-
-
 
 
 
@@ -440,6 +409,39 @@ app.get('/addtime/:username', (req, res) => {
 
 
 
+app.post('/allgroup', ifNotLoggedin, (req, res,) => {
+    const {  groupname, email } = req.body;
+    dbConnection.query("INSERT INTO allGroup (groupName, email, timeon,timeoff,onEveryDay,offEveryDay) VALUES ($1,$2,null,null,null,null)", [groupname, email], (err, result) => {
+        if (err) {
+            return next(err);
+        }
+
+        res.redirect('/index')
+    });
+
+});
+app.post('/updatedgroup', ifNotLoggedin, (req, res,) => {
+    const { timeon,timeoff,onEveryDay,offEveryDay, groupname, email } = req.body;
+    // ค้นหาโทเคนที่ตรงกับข้อมูลที่รับเข้ามา
+    dbConnection.query("SELECT * FROM allGroup WHERE email = $1 AND groupName = $2", [email, groupname], (err, result) => {
+        if (err) {
+            return next(err);  // ส่งข้อผิดพลาดไปยัง middleware ถัดไป
+        }
+        if (result.rows.length > 0) {
+            // อัพเดตสถานะของพินที่ตรงกัน
+            dbConnection.query("UPDATE allGroup SET timeon = $1 , timeoff = $2, onEveryDay = $3, offEveryDay = $4 WHERE email = $5 AND groupName = $6", [timeon,timeoff,onEveryDay,offEveryDay,email, groupname], (err, result) => {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/index')
+            });
+        } else {
+            return res.status(403).send('Incorrect token or pin');
+        }
+    });
+
+});
+
 app.post('/swcontrol', (req, res) => {
     const { token, pin, status } = req.body;
 
@@ -465,7 +467,6 @@ app.post('/swcontrol', (req, res) => {
 
 app.post('/lambController', (req, res) => {
     const { token } = req.body;
-    
     if (!token) {
         return res.status(400).send('Missing token.');
     }
@@ -516,35 +517,20 @@ app.post('/swcontrol1', (req, res, next) => {
 });
 
 
-
-
 function updated_oNTime() {
 
-    const currentTime = moment().format('HH:mm');
-    const currentDay = moment().format('dddd').toLowerCase();
+    const currentTime = moment().format('YYYY-MM-DD|HH:mm');
 
-    // Remove double quotes from around the query string
-    dbConnection.query(`SELECT id, token, pin, ${currentDay} FROM boardcontroller`, (err, result) => {
+    dbConnection.query("SELECT id, token,pin , timeon FROM boardcontroller", (err, result) => {
         if (err) {
             console.error('Error querying the database:', err);
             return;
         }
-        
+
         result.rows.forEach(row => {
-           
-            const dayTime = row[currentDay];
-            const isDaySelected = dayTime !== null && dayTime !== undefined; // Check if there is a time set for the current day
-            const isTimeMatch = dayTime === currentTime;
-
-            /* console.log(`Checking row ${row.id}:`);
-            console.log(`Current Time: ${currentTime}`);
-            console.log(`Day Time (${currentDay}): ${dayTime}`);
-            console.log(`Day Selected: ${isDaySelected}`);
-            console.log(`Time Match: ${isTimeMatch}`); */
-
-            // Update status only if the time matches and status is not already 1
-            if (isDaySelected && isTimeMatch && row.status !== 1) {
-                dbConnection.query("UPDATE boardcontroller SET status = 1 WHERE id = $1", [row.id], (updateErr) => {
+            if (row.timeon === currentTime) {
+                
+                dbConnection.query("UPDATE boardcontroller SET status = 1 ,timeon = $1 WHERE id = $2", [null,row.id], (updateErr, updateResult) => {
                     if (updateErr) {
                         console.error('Error updating status:', updateErr);
                     } else {
@@ -556,34 +542,20 @@ function updated_oNTime() {
     });
 }
 
-
 function updated_oFFTime() {
 
-    const currentTime = moment().format('HH:mm');
-    const currentDay = moment().format('dddd').toLowerCase()+"off";
-    //console.log(currentDay)
-    // Remove double quotes from around the query string
-    dbConnection.query(`SELECT id, token, pin, ${currentDay} FROM boardcontroller`, (err, result) => {
+    const currentTime = moment().format('YYYY-MM-DD|HH:mm');
+    
+    dbConnection.query("SELECT id, token,pin , timeoff FROM boardcontroller", (err, result) => {
         if (err) {
             console.error('Error querying the database:', err);
             return;
         }
-        
+
         result.rows.forEach(row => {
-           
-            const dayTime = row[currentDay];
-            const isDaySelected = dayTime !== null && dayTime !== undefined; // Check if there is a time set for the current day
-            const isTimeMatch = dayTime === currentTime;
-
-            /* console.log(`Checking row ${row.id}:`);
-            console.log(`Current Time: ${currentTime}`);
-            console.log(`Day Time (${currentDay}): ${dayTime}`);
-            console.log(`Day Selected: ${isDaySelected}`);
-            console.log(`Time Match: ${isTimeMatch}`); */
-
-            // Update status only if the time matches and status is not already 1
-            if (isDaySelected && isTimeMatch && row.status !== 0) {
-                dbConnection.query("UPDATE boardcontroller SET status = 0 WHERE id = $1", [row.id], (updateErr) => {
+            if (row.timeoff === currentTime) {
+                
+                dbConnection.query("UPDATE boardcontroller SET status = 0 ,timeoff = $1 WHERE id = $2", [null,row.id], (updateErr, updateResult) => {
                     if (updateErr) {
                         console.error('Error updating status:', updateErr);
                     } else {
