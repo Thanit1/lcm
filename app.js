@@ -12,6 +12,7 @@ setInterval(updated_oNTime, 6000);
 setInterval(updated_oFFTime, 6000); 
 
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static('public'));
 
 // SET OUR VIEWS AND VIEW ENGINE
 app.set('views', path.join(__dirname, 'views'));
@@ -73,8 +74,6 @@ app.get('/login', ifLoggedin, (req, res) => {
 
         });
     }
-
-
 });
 app.post('/login', ifLoggedin, [
     body('user_email').custom((value) => {
