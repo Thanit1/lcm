@@ -3,13 +3,14 @@ const path = require('path');
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
-const dbConnection = require('./database');
+const dbConnection = require('./db/citus');
 const app = express();
-const port = 3000;
+const port = 8080;
 const moment = require('moment');
 
 setInterval(updated_oNTime, 6000); 
 setInterval(updated_oFFTime, 6000); 
+setInterval(updated_TimeoN, 6000);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
@@ -437,7 +438,83 @@ app.get('/addtime/:username', (req, res) => {
     });
 });
 
+app.post('/cancelTime', ifNotLoggedin, (req, res, next) => {
+    const { switchStatus } = req.body;
+    let selectedDays = req.body['days[]']; 
+    let switches = req.body['switchesCancel[]'];
+    const time = "off"
+  
+    if (!Array.isArray(switches)) {
+        switches = [switches];
+    }
 
+    // Ensure selectedDays is an array
+    if (!Array.isArray(selectedDays)) {
+        selectedDays = [selectedDays];
+    }
+
+   
+
+    // Determine the appropriate columns to update based on switchStatus
+    const columnPrefix = switchStatus === 'private' ? '' : 'off';
+
+    // Check if any days are selected
+    if (!selectedDays || selectedDays.length === 0) {
+        return res.status(400).send('No days selected');
+    }
+
+    const queries = switches.map(switchData => {
+        const [token, pin] = switchData.split('|');
+        
+        // Build the query dynamically based on selected days and column prefix
+        const dayUpdates = selectedDays.map(day => `${day}${columnPrefix} = $1`).join(', ');
+        const sqlQuery = `UPDATE boardcontroller SET ${dayUpdates} WHERE token = $2 AND pin = $3`;
+
+        return dbConnection.query(
+            sqlQuery,
+            [time, token, pin]
+        );
+    });
+
+    // Execute all the queries
+    Promise.all(queries)
+        .then(() => res.redirect('index'))
+        .catch(err => {
+            console.error(err);
+            res.status(500).send('Database error');
+        });
+});
+
+app.get('/cancelTime/:username', (req, res) => {
+    const username = req.params.username;
+    console.log(username);
+    // ดึงข้อมูลบอร์ดที่เชื่อมโยงกับ username
+    dbConnection.query("SELECT token FROM boards WHERE email = $1", [username], (err, boardResult) => {
+        if (err) {
+            return console.error(err.message);
+        }
+        
+        // ดึง token จากผลลัพธ์บอร์ด
+        const tokens = boardResult.rows.map(row => row.token);
+        if (tokens.length === 0) {
+            return res.status(404).send('No boards found for the username');
+        }
+
+        // สร้างคำสั่ง SQL สำหรับดึงข้อมูลสวิตช์ที่เชื่อมโยงกับหลาย token
+        const placeholders = tokens.map((_, i) => `$${i + 1}`).join(', ');
+        const query = `SELECT * FROM boardcontroller WHERE token IN (${placeholders})`;
+
+        // ดึงข้อมูลสวิตช์ที่เชื่อมโยงกับ tokens
+        dbConnection.query(query, tokens, (err, switchResult) => {
+            if (err) {
+                return console.error(err.message);
+            }
+
+            // ส่งข้อมูลสวิตช์เป็น JSON
+            res.json(switchResult.rows);
+        });
+    });
+});
 
 
 app.post('/swcontrol', (req, res) => {
@@ -515,6 +592,20 @@ app.post('/swcontrol1', (req, res, next) => {
     });
 });
 
+
+function updated_TimeoN() {
+    const now = new Date(); // ดึงเวลาปัจจุบัน
+    const hours = now.getHours(); // ดึงชั่วโมง
+    const minutes = now.getMinutes(); // ดึงนาที
+    
+    // เช็คว่าเวลาตรงกับชั่วโมงเต็มหรือไม่
+    if (minutes === 0) {
+        console.log(`Time is now ${hours.toString().padStart(2, '0')}:00`);
+        // เพิ่มโค้ดที่ต้องการดำเนินการเมื่อเวลาตรงกับชั่วโมงเต็มที่นี่
+    }
+}
+
+// ทดสอบฟังก์ชัน
 
 
 

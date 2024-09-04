@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/77fbc879-5209-4581-8d86-8f2b0bdf7d04/resourceGroups/LMC-damo/providers/Microsoft.Web/sites/LMC-damo",
+    "appService.deploySubpath": "."
+}
