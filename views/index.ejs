@@ -186,7 +186,7 @@
             <!-- offcanvas nav -->
             <div class="container-fluid ">
                 <div class="row">
-                    <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary vh-100">
+                    <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary ">
                         <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
                             aria-labelledby="sidebarMenuLabel">
                             <div class="offcanvas-header">
@@ -696,23 +696,24 @@
                             for (const board of boards) {
                                 const cardHTML = `
                         <div class="container">
-                            <div class="card card-body my-3">
-                                <div class="row my-3 ">
-                                    <div class="col-11">
+                            <div class="container my-3">
+                                
+                                    <div class="d-flex justify-content-between">
                                         <h3>${board.name}</h3>
-                                    </div>
-                                    <div class="col">
                                         <div class="dropdown">
-                                            <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <i class="bi bi-list"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                                    data-bs-target="#addSwitchModal${board.id_board}">เพิ่มสวิตช์</button></li>
-                                                <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteBoardModal${board.id_board}">ลบบอร์ด</button></li>
-                                            </ul>
+                                        <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <i class="bi bi-list"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
+                                                data-bs-target="">แก้ไขสวิตช์</button>
+                                            </li>
+                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
+                                                data-bs-target="#addSwitchModal${board.id_board}">เพิ่มสวิตช์</button></li>
+                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
+                                                data-bs-target="#deleteBoardModal${board.id_board}">ลบบอร์ด</button></li>
+                                        </ul>
                                         </div>
                                     </div>
                                     <div class="modal fade" id="deleteBoardModal${board.id_board}" tabindex="-1" aria-labelledby="deleteBoardLabel"
@@ -783,8 +784,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div  id="SwitchAll${board.id_board}"></div>
+                                
+                                <div  >
+                                    <!-- หัวตารางบอกตำแหน่ง -->
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">nameSwitch</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Power Using</th>
+                                            <th scope="col">Time ON / OFF</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="SwitchAll${board.id_board}"> <!-- เพิ่ม <tbody> เพื่อรองรับ <tr> ภายใน -->
+                                        <!-- เนื้อหาเพิ่มเติมที่จะแสดง -->
+                                    </tbody>
+                                    </div>
                             </div>
                         </div>
                     `;
@@ -806,45 +822,43 @@
 
                                     switches.forEach(switchItem => {
                                         const switchHTML = `
-                            <div class="row bg-info bg-opacity-10 border border-info-subtle mx-3 pt-1 my-2">
-                                <div class="col-xxl-3 col-sm-6 col-6 mt-1">
-                                    <h5>${switchItem.name}</h5>
-                                </div>
-                                <div class="col mt-2">
-                                    <div>
-                                        <form action="/controller1" method="POST">
-                                            <input type="hidden" name="token" value="${switchItem.token}">
-                                            <div class="checkbox-wrapper-8">
-                                                <input class="tgl tgl-skewed" id="cb4-9-${switchItem.pin}${switchItem.token}" type="checkbox" name="status" value="1" ${switchItem.status == 1 ? 'checked' : ''} onchange="this.form.submit()" />
-                                                <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="cb4-9-${switchItem.pin}${switchItem.token}"></label>
-                                            </div>
-                                            <input type="hidden" name="pinname" value="${switchItem.pin}">
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-xxl-3 col-sm-6 col-6 mt-1">
-                                    <label for="">ใช้ไฟไปเท่าไหร่ : 56.61511</label>
-                                </div>
-                                <div class="col-xxl-3 col-sm-6 col-6 mt-1">
-                                    <label for="">เวลาเปิด คือ :${switchItem[day]}</label>
-                                    <br>
-                                    <label for="">เวลาปิด คือ :  ${switchItem[dayoff]}</label>
-                                </div>
-                                <div class="col">
-                                    <div class="dropdown">
-                                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="bi bi-list"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                                    data-bs-target="">แก้ไขสวิตช์</button></li>
-                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                                    data-bs-target="#addSw2${switchItem.pin}">ลบสวิตช์</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="addSw2${switchItem.pin}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                           
+                                <!-- เพิ่มสวิตช์แล้วจะเพิ่มส่วนนี้ -->
+            <tbody>
+              <tr>
+                <th scope="row">${switchItem.name}</th>
+                <td>
+                  <div>
+                    <form action="/controller1" method="POST">
+                      <input type="hidden" name="token" value="${switchItem.token}">
+                      <div class="checkbox-wrapper-8">
+                        <input class="tgl tgl-skewed" id="cb4-9-${switchItem.pin}${switchItem.token}" type="checkbox"
+                          name="status" value="1" ${switchItem.status==1 ? 'checked' : '' }
+                          onchange="this.form.submit()" />
+                        <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON"
+                          for="cb4-9-${switchItem.pin}${switchItem.token}"></label>
+                      </div>
+                      <input type="hidden" name="pinname" value="${switchItem.pin}">
+                    </form>
+                  </div>
+                </td>
+                <td>78.55 </td>
+                <td>ON :${switchItem[day]}<br>OFF :${switchItem[dayoff]}
+                </td>
+                <td>
+                  <!-- delete sw btn -->
+                  <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <i class="bi bi-list"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
+                          data-bs-target="">แก้ไขสวิตช์</button></li>
+                      <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
+                          data-bs-target="#addSw2${switchItem.pin}">ลบสวิตช์</button></li>
+                    </ul>
+                    <div class="modal fade" id="addSw2${switchItem.pin}" tabindex="-1" aria-labelledby="exampleModalLabel"
                                     aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -867,7 +881,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+                                
+                            
                             `;
                                         switchAll.insertAdjacentHTML('beforeend', switchHTML);
                                     });

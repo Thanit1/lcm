@@ -10,7 +10,12 @@ const moment = require('moment');
 
 setInterval(updated_oNTime, 6000); 
 setInterval(updated_oFFTime, 6000); 
-setInterval(updated_TimeoN, 6000);
+setInterval(() => {
+    const now = new Date();
+    if (now.getMinutes() === 0) {
+        updated_TimeoN();
+    }
+}, 60000);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
@@ -546,7 +551,7 @@ app.post('/lambController', (req, res) => {
     if (!token) {
         return res.status(400).send('Missing token.');
     }
-    dbConnection.query('SELECT id, token, name, pin, status, watt, timeoff FROM boardcontroller WHERE token = $1', [token])
+    dbConnection.query('SELECT id, token, name, pin, status, watt, upgdatetime FROM boardcontroller WHERE token = $1', [token])
         .then(result => {
             if (result.rows.length > 0) {
 
@@ -592,7 +597,6 @@ app.post('/swcontrol1', (req, res, next) => {
     });
 });
 
-
 function updated_TimeoN() {
     const now = new Date(); // ดึงเวลาปัจจุบัน
     const hours = now.getHours(); // ดึงชั่วโมง
@@ -600,8 +604,13 @@ function updated_TimeoN() {
     
     // เช็คว่าเวลาตรงกับชั่วโมงเต็มหรือไม่
     if (minutes === 0) {
-        console.log(`Time is now ${hours.toString().padStart(2, '0')}:00`);
-        // เพิ่มโค้ดที่ต้องการดำเนินการเมื่อเวลาตรงกับชั่วโมงเต็มที่นี่
+        dbConnection.query("UPDATE boardcontroller SET upgdatetime = 1", (updateErr) => {
+            if (updateErr) {
+                console.error('Error updating status:', updateErr);
+            } else {
+                console.log(`Status updated to 1 for token: ${row.token} and pin: ${row.pin}`);
+            }
+        });
     }
 }
 
