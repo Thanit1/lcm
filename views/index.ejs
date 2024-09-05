@@ -699,7 +699,13 @@
                             <div class="container my-3">
                                 
                                     <div class="d-flex justify-content-between">
-                                        <h3>${board.name}</h3>
+                                        <h3 >${board.name}</h3>
+                                        <div class = " d-flex ">
+                                            <h6 class = "p-3">Token : ${board.token}</h6>
+                                        <input type="hidden" value="${board.token}" id="textToCopy" style="width: 300px;">
+                                        <button  onclick="copyText()">คัดลอก</button>
+                                        <ion-icon name="create-outline"></ion-icon>
+                                        </div>
                                         <div class="dropdown">
                                         <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                             aria-expanded="false">
@@ -833,7 +839,7 @@
                       <input type="hidden" name="token" value="${switchItem.token}">
                       <div class="checkbox-wrapper-8">
                         <input class="tgl tgl-skewed" id="cb4-9-${switchItem.pin}${switchItem.token}" type="checkbox"
-                          name="status" value="1" ${switchItem.status==1 ? 'checked' : '' }
+                          name="status" value="1" ${switchItem.status == 1 ? 'checked' : ''}
                           onchange="this.form.submit()" />
                         <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON"
                           for="cb4-9-${switchItem.pin}${switchItem.token}"></label>
@@ -929,7 +935,27 @@
                     return token;
                 }
 
+                function copyText() {
+                    var copyText = document.getElementById("textToCopy");
 
+                    // สร้าง element ชั่วคราวเพื่อคัดลอกข้อความจากฟิลด์ที่ถูกซ่อน
+                    var tempInput = document.createElement("input");
+                    tempInput.setAttribute("value", copyText.value);
+                    document.body.appendChild(tempInput);
+
+                    // เลือกและคัดลอกข้อความ
+                    tempInput.select();
+                    tempInput.setSelectionRange(0, 99999); // สำหรับอุปกรณ์มือถือ
+
+                    // คัดลอกข้อความไปยัง clipboard
+                    document.execCommand("copy");
+
+                    // ลบ element ชั่วคราวที่สร้างขึ้น
+                    document.body.removeChild(tempInput);
+
+                    // แจ้งเตือนผู้ใช้ว่าข้อความถูกคัดลอกแล้ว
+                    alert("Token ถูกคัดลอก: " + copyText.value);
+                }
 
             </script>
 

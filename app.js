@@ -608,7 +608,7 @@ function updated_TimeoN() {
             if (updateErr) {
                 console.error('Error updating status:', updateErr);
             } else {
-                console.log(`Status updated to 1 for token: ${row.token} and pin: ${row.pin}`);
+                
             }
         });
     }
