@@ -733,26 +733,26 @@
                                 <!-- modal edit switch -->
                                     <div class="modal fade" id="editSwitchModal${switchItem.pin}" tabindex="-1" aria-labelledby="editSwitchModalLabel${switchItem.pin}" aria-hidden="true">
                                         <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title" id="editSwitchModalLabel${switchItem.pin}">แก้ไขสวิตช์ ${switchItem.name}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                            <form id="editSwitchForm${switchItem.pin}" action="/editSwitch" method="POST">
-                                                <input type="hidden" name="token" value="${switchItem.token}">
-                                                <input type="hidden" name="pin" value="${switchItem.pin}">
-                                                <div class="mb-3">
-                                                <label for="switchName${switchItem.pin}" class="form-label">ชื่อสวิตช์</label>
-                                                <input type="text" class="form-control" id="switchName${switchItem.pin}" name="name" value="${switchItem.name}" required>
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editSwitchModalLabel${switchItem.pin}">แก้ไขสวิตช์ ${switchItem.name}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                                                <button type="submit" class="btn btn-primary">บันทึกการแก้ไข</button>
+                                                <div class="modal-body">
+                                                    <form id="editSwitchForm${switchItem.pin}" action="/editSwitch" method="POST">
+                                                        <input type="hidden" name="token" value="${board.token}">
+                                                        <input type="hidden" name="pin" value="${switchItem.pin}">
+                                                        <div class="mb-3">
+                                                            <label for="switchName${switchItem.pin}" class="form-label">ชื่อสวิตช์</label>
+                                                            <input type="text" class="form-control" id="switchName${switchItem.pin}" name="name" value="${switchItem.name}" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                                                            <button type="submit" class="btn btn-primary">บันทึกการแก้ไข</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                            </form>
                                             </div>
-                                        </div>
                                         </div>
                                     </div>
                                 

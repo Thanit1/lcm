@@ -697,13 +697,20 @@ function updated_oFFTime() {
 app.post('/editSwitch', async (req, res) => {
     try {
         const { token, pin, name } = req.body;
-        // ทำการอัปเดตข้อมูลในฐานข้อมูลของคุณ
-        // ตัวอย่าง (ปรับให้เข้ากับโครงสร้างฐานข้อมูลของคุณ):
-        await db.query('UPDATE switches SET name = ? WHERE token = ? AND pin = ?', [name, token, pin]);
         
-        res.json({ success: true, message: 'สวิตช์ถูกแก้ไขเรียบร้อยแล้ว' });
+        // ทำการอัปเดตข้อมูลในตาราง boardcontroller
+        const result = await dbConnection.query(
+            'UPDATE boardcontroller SET name = $1 WHERE token = $2 AND pin = $3',
+            [name, token, pin]
+        );
+
+        if (result.rowCount > 0) {
+            res.json({ success: true, message: 'สวิตช์ถูกแก้ไขเรียบร้อยแล้ว' });
+        } else {
+            res.status(404).json({ success: false, message: 'ไม่พบสวิตช์ที่ต้องการแก้ไข' });
+        }
     } catch (error) {
-        console.error('Error updating switch:', error);
+        console.error('Error editing switch:', error);
         res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาดในการแก้ไขสวิตช์' });
     }
 });
