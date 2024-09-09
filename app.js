@@ -694,10 +694,32 @@ function updated_oFFTime() {
         });
     });
 }
+app.post('/editSwitch', async (req, res) => {
+    try {
+        const { token, pin, name } = req.body;
+        // ทำการอัปเดตข้อมูลในฐานข้อมูลของคุณ
+        // ตัวอย่าง (ปรับให้เข้ากับโครงสร้างฐานข้อมูลของคุณ):
+        await db.query('UPDATE switches SET name = ? WHERE token = ? AND pin = ?', [name, token, pin]);
+        
+        res.json({ success: true, message: 'สวิตช์ถูกแก้ไขเรียบร้อยแล้ว' });
+    } catch (error) {
+        console.error('Error updating switch:', error);
+        res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาดในการแก้ไขสวิตช์' });
+    }
+});
 
 app.get('/logout', (req, res) => {  
     req.session = null;
     res.redirect('/login');
+});
+app.get('/report', ifNotLoggedin, (req, res) => {
+    dbConnection.query("SELECT * FROM users WHERE id=$1", [req.session.userID], (err, result) => {
+        if (err) {
+            return res.status(500).send('Internal Server Error');
+        }
+        const username = result.rows[0].email || 'Guest';
+        res.render('report', { username });
+    });
 });
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

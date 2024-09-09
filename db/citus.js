@@ -1,4 +1,5 @@
-/* const { Pool } = require('pg');
+const { Pool } = require('pg');
+
 const dbConnection = new Pool({
     user: 'postgres',
     host: '172.25.9.75',
@@ -7,19 +8,14 @@ const dbConnection = new Pool({
     port: 5432
 });
 
-module.exports = dbConnection;
- */
-
-const { Pool } = require('pg');
-
-const dbConnection = new Pool({
-    user: 'lcmpj',
-    host: '20.2.211.25',
-    database: 'LCM',
-    password: '0656076916lcm',
-    port: 5432,
+// const dbConnection = new Pool({
+//     user: 'lcmpj',
+//     host: '20.2.211.25',
+//     database: 'LCM',
+//     password: '0656076916lcm',
+//     port: 5432,
     
-});
+// });
 
 // ฟังก์ชันสำหรับตรวจสอบการเชื่อมต่อ
 async function checkConnection() {
