@@ -10,18 +10,7 @@ const moment = require('moment-timezone');
 
 setInterval(updated_oNTime, 6000);
 setInterval(updated_oFFTime, 6000);
-setInterval(() => {
-    const now = new Date(); // ดึงเวลาปัจจุบัน
-    const options = { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', hour12: false };
-    
-    const hours = parseInt(new Intl.DateTimeFormat('en-US', { ...options, hour: '2-digit' }).format(now), 10); // ดึงชั่วโมงตามเวลาไทย
-    const minutes = parseInt(new Intl.DateTimeFormat('en-US', { ...options, minute: '2-digit' }).format(now), 10); // ดึงนาทีตามเวลาไทย
-
-    // เช็คว่าเวลาตรงกับชั่วโมงเต็มหรือไม่
-    if (minutes === 0) {
-        updated_TimeoN(); // เรียกใช้ฟังก์ชั่นเมื่อตรงกับชั่วโมงเต็ม
-    }
-}, 60000); // เรียกใช้ทุกนาที
+setInterval(updated_TimeoN, 60000); // เรียกใช้ทุกนาที
 
 
 app.use(express.urlencoded({ extended: false }));
@@ -51,7 +40,7 @@ const ifLoggedin = (req, res, next) => {
     }
     next();
 };
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
     if (!req.session.userID) {
         res.render('login', { username: null });
     } else {
@@ -59,13 +48,18 @@ app.get('/', (req, res) => {
             if (err) {
                 return next(err);
             }
+            const successMessage = req.session.successMessage || null; // Get success message from session
+            req.session.successMessage = null; // Clear the success message from the session
+
             res.render('index', {
                 username: result.rows[0].email,
+                successMessage: successMessage // Pass the success message to the template
             });
         });
     }
-
 });
+
+
 app.get('/register', ifLoggedin, (req, res) => {
     res.render('register', {
         register_error: [],
@@ -296,16 +290,47 @@ app.get('/getbord/:username', ifNotLoggedin, async (req, res) => {
 });
 app.get('/getSwitch1/:token', ifNotLoggedin, async (req, res) => {
     try {
-        const currentDay = moment().format('dddd').toLowerCase();
+        const currentDay = moment().format('DD-MM-YYYY'); // รูปแบบวันที่ปัจจุบัน
         const token = req.params.token;
-        const result = await dbConnection.query('SELECT * FROM boardcontroller WHERE token = $1 ORDER BY id ASC', [token]);
 
-        res.json(result.rows);
+        // Query ข้อมูลจาก boardcontroller
+        const boardResult = await dbConnection.query('SELECT * FROM boardcontroller WHERE token = $1 ORDER BY id ASC', [token]);
+
+        // Query เพื่อดึงและรวมค่า usage_minutes สำหรับแต่ละ pin ในวันที่ปัจจุบัน
+        const usageResult = await dbConnection.query(
+            'SELECT pin, SUM(usage_minutes) as total_usage FROM electricity_usage WHERE token = $1 AND "timestamp" LIKE $2 GROUP BY pin',
+            [token, `${currentDay}%`] // กรองเฉพาะวันที่ปัจจุบัน
+        );
+
+        // สร้าง object ที่จะรวมผลลัพธ์สำหรับแต่ละ pin
+        for (let row of usageResult.rows) {
+            // หาค่าพลังงานที่ใช้สำหรับ pin นั้น ๆ
+            const boardRow = boardResult.rows.find(br => br.pin === row.pin); // หาค่า watt จาก result
+            if (boardRow) {
+                const powerUsing = (boardRow.watt * (row.total_usage / 60)) / 1000;
+
+                // อัปเดตค่า PowerUsing ในตาราง boardcontroller
+                await dbConnection.query(
+                    'UPDATE boardcontroller SET "PowerUsing" = $1 WHERE token = $2 AND pin = $3',
+                    [powerUsing, token, row.pin]
+                );
+            }
+        }
+
+        // ดึงข้อมูล boardcontroller ที่อัปเดตแล้ว
+        const boardResult1 = await dbConnection.query('SELECT * FROM boardcontroller WHERE token = $1 ORDER BY id ASC', [token]);
+
+        // ส่งข้อมูล JSON รวมทั้งข้อมูลของ boardcontroller
+       
+        res.json(boardResult1.rows);
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+
 app.get('/dayonoff', (req, res) => {
     const currentDay = moment().tz('Asia/Bangkok').format('dddd').toLowerCase(); // ดึงชื่อวันปัจจุบันตามเวลาไทย
     const currentDayoff = currentDay + "off"; // ดึงชื่อวันปัจจุบันสำหรับ off
@@ -525,26 +550,35 @@ app.get('/cancelTime/:username', (req, res) => {
     });
 });
 
-app.post('/editSwitch', async (req, res) => {
+app.post('/editSwitch', async (req, res, next) => {
     try {
         const { token, pin, name } = req.body;
-        
-        // ทำการอัปเดตข้อมูลในตาราง boardcontroller
-        const result = await dbConnection.query(
+
+        // Update the switch in the boardcontroller table
+        await dbConnection.query(
             'UPDATE boardcontroller SET name = $1 WHERE token = $2 AND pin = $3',
             [name, token, pin]
         );
 
-        if (result.rowCount > 0) {
-            res.json({ success: true, message: 'สวิตช์ถูกแก้ไขเรียบร้อยแล้ว' });
-        } else {
-            res.status(404).json({ success: false, message: 'ไม่พบสวิตช์ที่ต้องการแก้ไข' });
-        }
+        // Get user email for rendering
+        dbConnection.query("SELECT email FROM users WHERE id=$1", [req.session.userID], (err, result) => {
+            if (err) {
+                return next(err);
+            }
+            req.session.successMessage = 'สวิตช์ถูกแก้ไขเรียบร้อยแล้ว'; // Store success message in session
+            res.redirect('/'); // Redirect to the index page
+        });
+
     } catch (error) {
         console.error('Error editing switch:', error);
         res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาดในการแก้ไขสวิตช์' });
     }
 });
+
+
+
+
+
 
 app.get('/report', ifNotLoggedin, (req, res) => {
     dbConnection.query("SELECT * FROM users WHERE id=$1", [req.session.userID], (err, result) => {
@@ -554,6 +588,11 @@ app.get('/report', ifNotLoggedin, (req, res) => {
         const username = result.rows[0].email || 'Guest';
         res.render('report', { username });
     });
+
+
+
+
+
 });
 
 app.post('/swcontrol', (req, res) => {
@@ -601,9 +640,9 @@ app.post('/lambController', (req, res) => {
 });
 
 app.post('/swcontrol1', (req, res, next) => {
-    const { token, status1, status2, status3 } = req.body;
+    const { token, pin1, pin2, pin3 } = req.body;
     const pins = [1, 2, 3];
-    const statuses = [status1, status2, status3];
+    const statuses = [pin1, pin2, pin3];
     console.log(req.body)
     dbConnection.query("SELECT * FROM boardcontroller WHERE token = $1", [token], (err, result) => {
         if (err) {
@@ -642,10 +681,10 @@ app.post('/addTimeONled', (req, res, next) => {
     // วนลูปเพื่ออัพเดตสถานะของแต่ละพิน
     const updatePromises = pins.map((pin, index) => {
         return dbConnection.query("INSERT INTO electricity_usage (token, pin, timestamp, usage_minutes )VALUES($1, $2, $3,$4)",
-            [token, pin,currentTime,usage[index]]);
+            [token, pin, currentTime, usage[index]]);
     });
 
-    dbConnection.query("UPDATE boardcontroller SET upgdatetime = 0  WHERE token = $1", [token],(updateErr) => {
+    dbConnection.query("UPDATE boardcontroller SET upgdatetime = 0  WHERE token = $1", [token], (updateErr) => {
         if (updateErr) {
             console.error('Error updating status:', updateErr);
         } else {
@@ -664,13 +703,10 @@ app.post('/addTimeONled', (req, res, next) => {
 
 function updated_TimeoN() {
     const now = new Date(); // ดึงเวลาปัจจุบัน
-    const options = { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', hour12: false };
-    const hours = new Intl.DateTimeFormat('en-US', { ...options, hour: '2-digit' }).format(now); // ดึงชั่วโมงตามเวลาไทย
-    const minutes = new Intl.DateTimeFormat('en-US', { ...options, minute: '2-digit' }).format(now); // ดึงนาทีตามเวลาไทย
-
-    console.log(`Current Time in Thailand: ${hours}:${minutes}`);
-
-
+    const options = { timeZone: 'Asia/Bangkok' };
+    const bangkokTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' })); // แปลงเวลาตาม timezone Bangkok
+    const minutes = bangkokTime.getMinutes(); // ดึงเลขนาที
+    console.log(minutes); // จะแสดงเฉพาะเลขนาที
     // เช็คว่าเวลาตรงกับชั่วโมงเต็มหรือไม่
     if (minutes === 0) {
         dbConnection.query("UPDATE boardcontroller SET upgdatetime = 1", (updateErr) => {
@@ -761,40 +797,11 @@ function updated_oFFTime() {
         });
     });
 }
-app.post('/editSwitch', async (req, res) => {
-    try {
-        const { token, pin, name } = req.body;
-        
-        // ทำการอัปเดตข้อมูลในตาราง boardcontroller
-        const result = await dbConnection.query(
-            'UPDATE boardcontroller SET name = $1 WHERE token = $2 AND pin = $3',
-            [name, token, pin]
-        );
-
-        if (result.rowCount > 0) {
-            res.json({ success: true, message: 'สวิตช์ถูกแก้ไขเรียบร้อยแล้ว' });
-        } else {
-            res.status(404).json({ success: false, message: 'ไม่พบสวิตช์ที่ต้องการแก้ไข' });
-        }
-    } catch (error) {
-        console.error('Error editing switch:', error);
-        res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาดในการแก้ไขสวิตช์' });
-    }
-});
-
 app.get('/logout', (req, res) => {
     req.session = null;
     res.redirect('/login');
 });
-app.get('/report', ifNotLoggedin, (req, res) => {
-    dbConnection.query("SELECT * FROM users WHERE id=$1", [req.session.userID], (err, result) => {
-        if (err) {
-            return res.status(500).send('Internal Server Error');
-        }
-        const username = result.rows[0].email || 'Guest';
-        res.render('report', { username });
-    });
-});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
