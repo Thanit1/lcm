@@ -1,0 +1,625 @@
+<%- include('head')%>
+<%- include('navbar2.ejs') %>
+
+<body class="light-theme">
+     <!-- เปลี่ยนธีม -->
+     <div class="position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+        <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
+        aria-expanded="false" data-bs-toggle="dropdown" aria-label="สลับธีม (อัตโนมัติ)">
+          <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
+          <span class="visually-hidden" id="bd-theme-text">สลับธีม</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+              <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#sun-fill"></use></svg>
+              สว่าง
+              <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+              <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+              มืด
+              <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+              <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em"><use href="#circle-half"></use></svg>
+              อัตโนมัติ
+              <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+            </button>
+          </li>
+        </ul>
+      </div>
+    <div class="container-fluid p-0">
+        <!-- Hero Section -->
+        <section class="hero-section text-white text-center py-5" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/5.png'); background-size: cover; background-position: center; position: relative; overflow: hidden;">
+            <div class="animated-bg"></div>
+            <div class="container position-relative">
+                <div class="bg-dark bg-opacity-75 rounded mb-4 p-4">
+                    <h1 class="display-1 display-md-3 display-lg-1 fw-bold mb-3 animate__animated animate__fadeInDown">
+                        <span class="text-gradient">ระบบควบคุมและตรวจสอบแสงสว่างในอาคาร</span>
+                    </h1>
+                    <h2 class="h4 h3-md mb-4 animate__animated animate__fadeInUp">
+                        <span class="text-gradient-2">โดยใช้ ESP32</span>
+                    </h2>
+                </div>
+                <a href="#about" class="btn btn-light btn-lg animate__animated animate__fadeInUp animate__delay-1s hover-effect">เรียนรู้เพิ่มเติม</a>
+            </div>
+        </section>
+        <style>
+            .animated-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('/img/6.png');
+                background-size: cover;
+                background-position: center;
+                filter: blur(5px);
+                animation: pulse 10s infinite;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .hero-section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(45deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+                z-index: 1;
+            }
+
+            .hero-section .container {
+                z-index: 2;
+            }
+
+            @media (max-width: 768px) {
+                .hero-section .container {
+                    max-width: 90%;
+                }
+                .display-4 {
+                    font-size: 2rem;
+                }
+                .h4 {
+                    font-size: 1.2rem;
+                }
+            }
+
+            @media (min-width: 769px) and (max-width: 1024px) {
+                .hero-section .container {
+                    max-width: 80%;
+                }
+                .display-md-3 {
+                    font-size: 3rem;
+                }
+                .h3-md {
+                    font-size: 1.5rem;
+                }
+            }
+
+            @media (min-width: 1025px) {
+                .hero-section .container {
+                    max-width: 60%;
+                }
+            }
+        </style>
+
+        <!-- About Section -->
+        <section id="about" class="py-5 bg-gradient-light">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-4 mb-lg-0 animate__animated animate__fadeInLeft" data-aos="fade-right">
+                        <div class="position-relative overflow-hidden rounded-lg shadow-lg">
+                            <img src="/img/3.png" alt="ค่าไฟฟ้าสูง" class="img-fluid w-100 transform-hover">
+                            <div class="overlay-glow"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 animate__animated animate__fadeInRight" data-aos="fade-left">
+                        <h2 class="display-4 mb-4 text-primary fw-bold text-gradient-primary">ปัญหาที่เราแก้ไข</h2>
+                        <p class="lead text-muted mb-4">
+                            ปัจจุบัน ค่าไฟฟ้าปรับตัวสูงขึ้นมาก เนื่องจากการปรับค่าไฟฟ้าผันแปร
+                            ส่งผลให้ค่าไฟฟ้าโดยรวมเพิ่มสูงขึ้น โดยเฉพาะในอาคารสูงหลายชั้น เช่น อาคารเรียน
+                            มักเกิดปัญหาการลืมปิดไฟหลังเลิกเรียน ทำให้ต้องใช้บุคลากรในการตรวจสอบ
+                            ซึ่งเป็นการเพิ่มค่าใช้จ่ายและการใช้พลังงานโดยไม่จำเป็น
+                        </p>
+                        <div class="d-flex justify-content-start">
+                            <div class="me-4">
+                                <h3 class="h2 text-primary mb-2">
+                                    <i class="bi bi-lightning-charge-fill me-2"></i>
+                                    <span class="counter" data-target="50">0</span>%
+                                </h3>
+                                <p class="text-muted">ลดการใช้พลังงาน</p>
+                            </div>
+                            <div>
+                                <h3 class="h2 text-success mb-2">
+                                    <i class="bi bi-cash-coin me-2 mr-5"></i>
+                                    <span class="counter" data-target="30">0</span>%
+                                </h3>
+                                <p class="text-muted">ประหยัดค่าไฟฟ้า</p>
+                            </div>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const counters = document.querySelectorAll('.counter');
+                                const observer = new IntersectionObserver((entries) => {
+                                    entries.forEach(entry => {
+                                        if (entry.isIntersecting) {
+                                            const counter = entry.target;
+                                            const target = +counter.getAttribute('data-target');
+                                            const increment = target / 100;
+                                            const updateCounter = () => {
+                                                const count = +counter.innerText;
+                                                if (count < target) {
+                                                    counter.innerText = Math.ceil(count + increment);
+                                                    setTimeout(updateCounter, 10);
+                                                } else {
+                                                    counter.innerText = target;
+                                                }
+                                            };
+                                            updateCounter();
+                                            observer.unobserve(counter);
+                                        }
+                                    });
+                                }, { threshold: 0.5 });
+
+                                counters.forEach(counter => {
+                                    observer.observe(counter);
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="bg-light py-5">
+            <div class="container">
+                <h2 class="display-4 text-center mb-5 text-primary animate__animated animate__fadeInDown">แผนการดำเนินงาน</h2>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-lg hover-zoom animate__animated" data-aos="fade-up">
+                            <div class="card-body text-center p-4">
+                                <div class="icon-wrapper mb-4 " style="margin-left: -50px;">
+                                    <i class="bi bi-lightbulb display-3 text-primary "></i>
+                                </div>
+
+
+
+
+                                <h3 class="h4 card-title mb-3">พัฒนาระบบตรวจสอบและควบคุม</h3>
+                                <p class="card-text">ระบบอัจฉริยะเพื่อตรวจสอบสถานะและควบคุมการเปิด-ปิดของหลอดไฟอย่างมีประสิทธิภาพ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-lg hover-zoom animate__animated" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-body text-center p-4">
+                                <div class="icon-wrapper mb-4" style="margin-left: -50px;">
+                                    <i class="bi bi-clock display-3 text-primary"></i>
+                                </div>
+                                <h3 class="h4 card-title mb-3">ระบบตั้งเวลาอัตโนมัติ</h3>
+                                <p class="card-text">เพิ่มความสะดวกด้วยฟังก์ชันการตั้งเวลาเปิด-ปิดหลอดไฟอัตโนมัติ ช่วยประหยัดพลังงาน</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-lg hover-zoom animate__animated" data-aos="fade-up" data-aos-delay="400">
+                            <div class="card-body text-center p-4">
+                                <div class="icon-wrapper mb-4" style="margin-left: -50px;">
+                                    <i class="bi bi-graph-up display-3 text-primary"></i>
+                                </div>
+                                <h3 class="h4 card-title mb-3">ประมาณค่าไฟฟ้า</h3>
+                                <p class="card-text">แสดงการประมาณค่าไฟฟ้าที่ใช้ไปอย่างแม่นยำ ช่วยในการวางแผนและควบคุมค่าใช้จ่าย</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="py-5 bg-gradient-light">
+            <div class="container">
+                <h2 class="display-4 text-center mb-5 text-gradient animate__animated animate__fadeInDown">ประโยชน์ที่จะได้รับ</h2>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6">
+                        <div class="benefit-card animate__animated animate__fadeInLeft" data-aos="fade-right">
+                            <div class="benefit-icon">
+                                <i class="bi bi-check-circle-fill text-success"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <p class="lead">ลดภาระในการตรวจเช็คสถานะการเปิด-ปิดไฟในแต่ละห้อง</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card animate__animated animate__fadeInLeft" data-aos="fade-right" data-aos-delay="200">
+                            <div class="benefit-icon">
+                                <i class="bi bi-check-circle-fill text-success"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <p class="lead">ช่วยให้ทราบถึงการประมาณการใช้ไฟฟ้าในแต่ละห้อง</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="benefit-card animate__animated animate__fadeInRight" data-aos="fade-left">
+                            <div class="benefit-icon">
+                                <i class="bi bi-check-circle-fill text-success"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <p class="lead">ประหยัดพลังงานและลดค่าใช้จ่ายด้านไฟฟ้า</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card animate__animated animate__fadeInRight" data-aos="fade-left" data-aos-delay="200">
+                            <div class="benefit-icon">
+                                <i class="bi bi-check-circle-fill text-success"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <p class="lead">เพิ่มประสิทธิภาพในการบริหารจัดการพลังงานภายในอาคาร</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <div class="image-frame p-2 d-inline-block">
+                        <img src="/img/4.png" class="img-fluid rounded animate__animated animate__zoomIn hover-effect" data-aos="zoom-in" alt="ประโยชน์ของระบบควบคุมแสงสว่างอัจฉริยะ" style="max-width: 50%; transition: all 0.3s ease;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <style>
+            .benefit-card {
+                display: flex;
+                align-items: center;
+                background-color: #ffffff;
+                border-radius: 15px;
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                transition: all 0.3s ease;
+            }
+            .benefit-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            }
+            .benefit-icon {
+                font-size: 2rem;
+                margin-right: 20px;
+                color: #28a745;
+            }
+            .benefit-content {
+                flex: 1;
+            }
+            .benefit-content p {
+                margin-bottom: 0;
+                color: #333;
+            }
+            .text-gradient {
+                background: linear-gradient(45deg, #007bff, #00ff88);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        </style>
+        <!-- ส่วนของหลอดไฟและสวิตช์แบบตึก -->
+        <section class="py-5 bg-gradient-primary">
+            <div class="container">
+                <h2 class="display-4 text-center mb-5 animate__animated animate__fadeInDown" style="font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: 1px;">
+                    <span class="bg-gradient-primary px-4 py-2 rounded-pill position-relative" style="color: #FFD700; text-shadow: 1px 1px 2px #000000;">
+                        สาธิตการควบคุมไฟในตึกอัจฉริยะ
+                        
+                    </span>
+                    <i class="bi bi-building ms-3 animate__animated animate__pulse animate__infinite" style="color: #00CED1;"></i>
+                </h2>
+                
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-7 text-center">
+                        <div class="building-container animate__animated animate__zoomIn" style="width: 320px; height: 520px; background: linear-gradient(to bottom, #1a237e, #0d47a1); border: 2px solid #333; margin: 0 auto 0 auto; position: relative; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden;">
+                            <div class="roof" style="width: 0; height: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-bottom: 60px solid #37474f; position: absolute; top: -60px; left: 0;"></div>
+                            <div class="floor" style="height: 33%; border-bottom: 2px solid #333; position: relative; background-color: rgba(255,255,255,0.1); transition: all 0.3s ease;">
+                                <div class="window" style="width: 70px; height: 90px; background-color: #ffd54f; position: absolute; top: 15px; left: 25px; border: 2px solid #333; box-shadow: inset 0 0 10px rgba(0,0,0,0.3);"></div>
+                                <div class="window" style="width: 70px; height: 90px; background-color: #ffd54f; position: absolute; top: 15px; right: 25px; border: 2px solid #333; box-shadow: inset 0 0 10px rgba(0,0,0,0.3);"></div>
+                                <i class="bi bi-lightbulb-fill display-4 text-warning" id="lightbulb-floor3" style="position: absolute; top: 25%; left: 60%; transform: translate(-50%, -50%) rotate(180deg); transition: all 0.3s ease;"></i>
+                                <button class="btn btn-sm btn-outline-light rounded-pill" id="switch-floor3" style="position: absolute; bottom: 5px; right: 5px;">เปิด/ปิด</button>
+                            </div>
+                            <div class="floor" style="height: 33%; border-bottom: 2px solid #333; position: relative; background-color: rgba(255,255,255,0.1); transition: all 0.3s ease;">
+                                <div class="window" style="width: 70px; height: 90px; background-color: #ffd54f; position: absolute; top: 15px; left: 25px; border: 2px solid #333; box-shadow: inset 0 0 10px rgba(0,0,0,0.3);"></div>
+                                <div class="window" style="width: 70px; height: 90px; background-color: #ffd54f; position: absolute; top: 15px; right: 25px; border: 2px solid #333; box-shadow: inset 0 0 10px rgba(0,0,0,0.3);"></div>
+                                <i class="bi bi-lightbulb-fill display-4" id="lightbulb-floor2" style="position: absolute; top: 25%; left: 60%; transform: translate(-50%, -50%) rotate(180deg); transition: all 0.3s ease;"></i>
+                                <button class="btn btn-sm btn-outline-light rounded-pill" id="switch-floor2" style="position: absolute; bottom: 5px; right: 5px;">เปิด/ปิด</button>
+                            </div>
+                            <div class="floor" style="height: 33%; position: relative; background-color: rgba(255,255,255,0.1); transition: all 0.3s ease;">
+                                <div class="door" style="width: 90px; height: 130px; background-color: #795548; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); border: 2px solid #333; box-shadow: inset 0 0 10px rgba(0,0,0,0.3);"></div>
+                                <i class="bi bi-lightbulb-fill display-4 text-warning" id="lightbulb-floor1" style="position: absolute; top: 25%; left: 60%; transform: translate(-50%, -50%) rotate(180deg); transition: all 0.3s ease;"></i>
+                                <button class="btn btn-sm btn-outline-light rounded-pill" id="switch-floor1" style="position: absolute; bottom: 5px; right: 5px;">เปิด/ปิด</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 text-center mt-5 mt-md-0">
+                        <div class="mobile-device animate__animated animate__fadeInRight" style="width: 270px; height: 520px; background-color: #f8f9fa; border: 15px solid #343a40; border-radius: 40px; margin: 0 auto; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                            <div class="mobile-screen" style="width: 100%; height: 100%; background-color: #ffffff; padding: 35px; display: flex; flex-direction: column; justify-content: center;">
+                                <h3 class="h4 mb-4 text-primary">สถานะไฟในตึก</h3>
+                                <div class="room-status mb-4">
+                                    <p class="mb-3 fs-5">ชั้น 3: <span id="floor3Status" class="badge bg-success">เปิด</span></p>
+                                    <p class="mb-3 fs-5">ชั้น 2: <span id="floor2Status" class="badge bg-danger">ปิด</span></p>
+                                    <p class="mb-3 fs-5">ชั้น 1: <span id="floor1Status" class="badge bg-success">เปิด</span></p>
+                                </div>
+                                <div class="mt-4">
+                                    <p class="text-muted">ควบคุมไฟผ่านแอปพลิเคชัน</p>
+                                    <button class="btn btn-primary rounded-pill mt-2" id="toggleAllLights">เปิด/ปิดไฟทั้งหมด</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const floors = ['floor1', 'floor2', 'floor3'];
+                
+                floors.forEach(floor => {
+                    const lightbulb = document.getElementById(`lightbulb-${floor}`);
+                    const switchButton = document.getElementById(`switch-${floor}`);
+                    let isOn = floor !== 'floor2';  // เริ่มต้นให้ชั้น 2 ปิดไฟ
+
+                    switchButton.addEventListener('click', function() {
+                        isOn = !isOn;
+                        if (isOn) {
+                            lightbulb.classList.add('text-warning');
+                            lightbulb.style.textShadow = '0 0 10px #ffd700';
+                            document.getElementById(`${floor}Status`).className = 'badge bg-success';
+                            document.getElementById(`${floor}Status`).textContent = 'เปิด';
+                        } else {
+                            lightbulb.classList.remove('text-warning');
+                            lightbulb.style.textShadow = 'none';
+                            document.getElementById(`${floor}Status`).className = 'badge bg-danger';
+                            document.getElementById(`${floor}Status`).textContent = 'ปิด';
+                        }
+                        switchButton.classList.add('animate__animated', 'animate__rubberBand');
+                        setTimeout(() => switchButton.classList.remove('animate__animated', 'animate__rubberBand'), 1000);
+                    });
+
+                    // ตั้งค่าเริ่มต้น
+                    if (isOn) {
+                        lightbulb.classList.add('text-warning');
+                        lightbulb.style.textShadow = '0 0 10px #ffd700';
+                    }
+                });
+
+                // อัพเดทสถานะเริ่มต้นของชั้น 1 และ 3
+                document.getElementById('floor1Status').className = 'badge bg-success';
+                document.getElementById('floor1Status').textContent = 'เปิด';
+                document.getElementById('floor3Status').className = 'badge bg-success';
+                document.getElementById('floor3Status').textContent = 'เปิด';
+
+                
+                // เพิ่มเอฟเฟกต์ปุ่มเปิด/ปิดไฟทั้งหมด
+                const toggleAllButton = document.getElementById('toggleAllLights');
+                toggleAllButton.addEventListener('click', () => {
+                    floors.forEach(floor => {
+                        const lightbulb = document.getElementById(`lightbulb-${floor}`);
+                        const status = document.getElementById(`${floor}Status`);
+                        if (lightbulb.classList.contains('text-warning')) {
+                            lightbulb.classList.remove('text-warning');
+                            lightbulb.style.textShadow = 'none';
+                            status.className = 'badge bg-danger';
+                            status.textContent = 'ปิด';
+                        } else {
+                            lightbulb.classList.add('text-warning');
+                            lightbulb.style.textShadow = '0 0 10px #ffd700';
+                            status.className = 'badge bg-success';
+                            status.textContent = 'เปิด';
+                        }
+                    });
+                    toggleAllButton.classList.add('animate__animated', 'animate__pulse');
+                    setTimeout(() => toggleAllButton.classList.remove('animate__animated', 'animate__pulse'), 1000);
+                });
+            });
+        </script>
+
+
+        <!-- Equipment Section -->
+        <section class="bg-light py-5">
+            <div class="container">
+                <h2 class="display-4 text-center mb-5 text-gradient animate__animated animate__fadeInDown">อุปกรณ์ที่ใช้</h2>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card h-100 border-0 shadow-lg hover-zoom rounded-lg overflow-hidden animate__animated" data-aos="fade-up">
+                            <div class="card-img-overlay d-flex flex-column justify-content-end p-0">
+                                <div class="bg-dark bg-opacity-75 p-3">
+                                    <h3 class="h5 card-title text-white mb-0">บอร์ดควบคุมไฟ</h3>
+                                </div>
+                            </div>
+                            <img src="/img/contorller.jpg" class="card-img-top" alt="บอร์ดควบคุมไฟ">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card h-100 border-0 shadow-lg hover-zoom rounded-lg overflow-hidden animate__animated" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-img-overlay d-flex flex-column justify-content-end p-0">
+                                <div class="bg-dark bg-opacity-75 p-3">
+                                    <h3 class="h5 card-title text-white mb-0">ไมโครคอนโทรลเลอร์</h3>
+                                </div>
+                            </div>
+                            <img src="/img/esp32.jpg" class="card-img-top" alt="ไมโครคอนโทรลเลอร์">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card h-100 border-0 shadow-lg hover-zoom rounded-lg overflow-hidden animate__animated" data-aos="fade-up" data-aos-delay="400">
+                            <div class="card-img-overlay d-flex flex-column justify-content-end p-0">
+                                <div class="bg-dark bg-opacity-75 p-3">
+                                    <h3 class="h5 card-title text-white mb-0">บอร์ดสำหรับเสียบไมโครคอนโทรลเลอร์</h3>
+                                </div>
+                            </div>
+                            <img src="/img/esp322.jpg" class="card-img-top" alt="บอร์ดสำหรับเสียบไมโครคอนโทรลเลอร์">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="py-5 bg-gradient-light">
+            <div class="container">
+                <h2 class="display-4 text-center mb-5 text-gradient animate__animated animate__fadeInDown">ทีมงานของเรา</h2>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card border-0 shadow-lg hover-card animate__animated animate__fadeInUp">
+                            <div class="card-body text-center">
+                                <div class="mb-4 position-relative">
+                                    <img src="/img/thanit.png" class="rounded-circle img-fluid border border-3 border-primary" alt="Thanit Saengjinda" style="width: 150px; height: 150px; object-fit: cover;">
+                                    <div class="position-absolute top-0 start-100 translate-middle">
+                                        <span class="badge bg-success rounded-pill">ผู้พัฒนา</span>
+                                    </div>
+                                </div>
+                                <h5 class="card-title mb-3 text-gradient">Thanit Saengjinda</h5>
+                                <p class="card-text">
+                                    <a href="https://www.facebook.com/profile.php?id=100014788909372" target="_blank" class="btn btn-outline-primary btn-sm mb-2 hover-effect"><i class="bi bi-facebook me-2"></i>ฐานิต แสงจินดา</a><br>
+                                    <a href="https://www.instagram.com/mrpong.pg369" target="_blank" class="btn btn-outline-danger btn-sm hover-effect"><i class="bi bi-instagram me-2"></i>mrpong.pg369</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card border-0 shadow-lg hover-card animate__animated animate__fadeInUp" data-aos-delay="200">
+                            <div class="card-body text-center">
+                                <div class="mb-4 position-relative">
+                                    <img src="/img/Warithnun.png" class="rounded-circle img-fluid border border-3 border-info" alt="Warithnun Phakdeerat" style="width: 150px; height: 150px; object-fit: cover;">
+                                    <div class="position-absolute top-0 start-100 translate-middle">
+                                        <span class="badge bg-info rounded-pill animate__animated animate__pulse animate__infinite">ผู้พัฒนา</span>
+                                    </div>
+                                </div>
+                                <h5 class="card-title mb-3 text-gradient-2">Warithnun Phakdeerat</h5>
+                                <p class="card-text">
+                                    <a href="https://www.facebook.com/tarwarith" target="_blank" class="btn btn-outline-primary btn-sm mb-2 hover-effect"><i class="bi bi-facebook me-2"></i>Warithnun Phakdeerat</a><br>
+                                    <a href="https://www.instagram.com/ttahalo" target="_blank" class="btn btn-outline-danger btn-sm hover-effect"><i class="bi bi-instagram me-2"></i>ttahalo</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card border-0 shadow-lg hover-card animate__animated animate__fadeInUp" data-aos-delay="400">
+                            <div class="card-body text-center">
+                                <div class="mb-4 position-relative">
+                                    <img src="/img/advisor.png" class="rounded-circle img-fluid border border-3 border-warning" alt="ที่ปรึกษาโปรเจค" style="width: 150px; height: 150px; object-fit: cover;">
+                                    <div class="position-absolute top-0 start-100 translate-middle">
+                                        <span class="badge bg-warning text-dark rounded-pill animate__animated animate__pulse animate__infinite">ที่ปรึกษา</span>
+                                    </div>
+                                </div>
+                                <h5 class="card-title mb-3 text-gradient">Atirarj Suksawad</h5>
+                                <p class="card-text">
+                                    <span class="text-muted">ผู้ให้คำแนะนำและสนับสนุนโครงการ</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <style>
+            .hover-card {
+                transition: all 0.3s ease;
+            }
+            .hover-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.2) !important;
+            }
+            .hover-effect {
+                transition: all 0.3s ease;
+            }
+            .hover-effect:hover {
+                transform: scale(1.05);
+            }
+        </style>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        .hover-zoom {
+            transition: transform .2s;
+        }
+        .hover-zoom:hover {
+            transform: scale(1.05);
+        }
+        .text-gradient {
+            background: linear-gradient(45deg, #007bff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-2 {
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/img/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animate elements on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate__animated');
+            elements.forEach(element => {
+                if (isElementInViewport(element)) {
+                    element.classList.add('animate__fadeInUp');
+                }
+            });
+        }
+
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+
+</body>
+
+</html>

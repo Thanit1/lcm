@@ -1,5 +1,60 @@
-body{
-  height: 100;
+body, html {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  height: 100%;
+}
+
+.noto-sans-thai-looped-thin {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.noto-sans-thai-looped-extralight {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.noto-sans-thai-looped-light {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.noto-sans-thai-looped-regular {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.noto-sans-thai-looped-medium {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.noto-sans-thai-looped-semibold {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.noto-sans-thai-looped-bold {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.noto-sans-thai-looped-extrabold {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.noto-sans-thai-looped-black {
+  font-family: "Noto Sans Thai Looped", sans-serif;
+  font-weight: 900;
+  font-style: normal;
 }
 .bd-placeholder-img {
     font-size: 1.125rem;

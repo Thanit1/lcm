@@ -2,54 +2,6 @@
     <%- include('navbar2.ejs') %>
 
         <body class="vh-100">
-            <!-- color-modes -->
-            <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-                <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme"
-                    type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
-                    <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
-                        <use href="#circle-half"></use>
-                    </svg>
-                    <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
-                    <li>
-                        <button type="button" class="dropdown-item d-flex align-items-center"
-                            data-bs-theme-value="light" aria-pressed="false">
-                            <svg class="bi me-2 opacity-50" width="1em" height="1em">
-                                <use href="#sun-fill"></use>
-                            </svg>
-                            Light
-                            <svg class="bi ms-auto d-none" width="1em" height="1em">
-                                <use href="#check2"></use>
-                            </svg>
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark"
-                            aria-pressed="false">
-                            <svg class="bi me-2 opacity-50" width="1em" height="1em">
-                                <use href="#moon-stars-fill"></use>
-                            </svg>
-                            Dark
-                            <svg class="bi ms-auto d-none" width="1em" height="1em">
-                                <use href="#check2"></use>
-                            </svg>
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" class="dropdown-item d-flex align-items-center active"
-                            data-bs-theme-value="auto" aria-pressed="true">
-                            <svg class="bi me-2 opacity-50" width="1em" height="1em">
-                                <use href="#circle-half"></use>
-                            </svg>
-                            Auto
-                            <svg class="bi ms-auto d-none" width="1em" height="1em">
-                                <use href="#check2"></use>
-                            </svg>
-                        </button>
-                    </li>
-                </ul>
-            </div>
             <!-- logo svg -->
             <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
                 <symbol id="check2" viewBox="0 0 16 16">
@@ -135,23 +87,23 @@
                         d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                 </symbol>
             </svg>
-            <!-- div for theme toggle -->
-            <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+            <!-- เปลี่ยนธีม -->
+            <div class="position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
                 <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme"
-                    type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
+                    type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="สลับธีม (อัตโนมัติ)">
                     <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
                         <use href="#circle-half"></use>
                     </svg>
-                    <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+                    <span class="visually-hidden" id="bd-theme-text">สลับธีม</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
                     <li>
                         <button type="button" class="dropdown-item d-flex align-items-center"
                             data-bs-theme-value="light" aria-pressed="false">
-                            <svg class="bi me-2 opacity-50" width="1em" height="1em">
+                            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
                                 <use href="#sun-fill"></use>
                             </svg>
-                            Light
+                            สว่าง
                             <svg class="bi ms-auto d-none" width="1em" height="1em">
                                 <use href="#check2"></use>
                             </svg>
@@ -160,10 +112,10 @@
                     <li>
                         <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark"
                             aria-pressed="false">
-                            <svg class="bi me-2 opacity-50" width="1em" height="1em">
+                            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
                                 <use href="#moon-stars-fill"></use>
                             </svg>
-                            Dark
+                            มืด
                             <svg class="bi ms-auto d-none" width="1em" height="1em">
                                 <use href="#check2"></use>
                             </svg>
@@ -172,10 +124,10 @@
                     <li>
                         <button type="button" class="dropdown-item d-flex align-items-center active"
                             data-bs-theme-value="auto" aria-pressed="true">
-                            <svg class="bi me-2 opacity-50" width="1em" height="1em">
+                            <svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
                                 <use href="#circle-half"></use>
                             </svg>
-                            Auto
+                            อัตโนมัติ
                             <svg class="bi ms-auto d-none" width="1em" height="1em">
                                 <use href="#check2"></use>
                             </svg>
@@ -188,268 +140,350 @@
                 <div class="row">
 
                     <main>
-                        <div
-                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 class="h2">Dashboard</h1>
+                        <div class="container-fluid py-4">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-8">
+                                    <div class="d-none d-md-block">
+                                        <div class="card-body text-center">
+                                            <h4 class="card-title text-muted">ยินดีต้อนรับ <b>
+                                                    <%= name %>
+                                                </b></h4>
+                                            <p class="card-text text-muted" id="current-time-large"></p>
+                                            <p class="card-text text-muted">ขอให้มีวันที่ดีในการใช้งานระบบของเรา</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-md-none">
+                                        <h5 class="text-center text-muted">ยินดีต้อนรับ, <%= name %>
+                                        </h5>
+                                        <p class="text-center text-muted" id="current-time-small"></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
+                        <script>
+                            function updateTime() {
+                                const now = new Date();
+                                const options = { timeZone: 'Asia/Bangkok', hour12: false, year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+                                const thaiTime = now.toLocaleString('th-TH', options);
+                                document.getElementById('current-time-large').textContent = thaiTime;
+                                document.getElementById('current-time-small').textContent = thaiTime;
+                            }
+                            updateTime();
+                            setInterval(updateTime, 1000);
+                        </script>
                         <div class="container">
 
                             <!-- board -->
                             <!-- add/edit board -->
-                            <div class="d-flex flex-row mb-3 justify-content-end ">
-                                <div class="p-2">
-                                    <button type="button" onclick="generateToken()" class="btn btn-success"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        เพิ่มบอร์ด
-                                        <i class="bi bi-plus-square"></i>
-                                    </button>
-                                    <form action="/addBoard" method="POST" novalidate>
-                                        <div class="modal fade" id="exampleModal" tabindex="-1"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <input type="hidden" class="d-none" name="user_email" id="user_email"
-                                                value="<%= username %>">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">เพิ่มบอร์ด</h5>
-                                                        <input type="hidden" class="d-none" name="tokenboard"
-                                                            id="tokenboard" value="">
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <label for=""></label>
-                                                        <div class="mb-3">
-                                                            <label for="recipient-name"
-                                                                class="form-label">ชื่อบอร์ด</label>
-                                                            <input type="text" name="switchname" class="form-control"
-                                                                id="recipient-name" aria-describedby="helpId"
-                                                                placeholder="กรอกชื่อบอร์ด" />
-                                                            <small id="helpId"
-                                                                class="form-text text-muted">ระบุชื่อบอร์ด (
-                                                                ชื่อห้องของสวิตช์
-                                                                )</small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger"
-                                                            data-bs-dismiss="modal">ยกเลิก</button>
-                                                        <button type="submit" class="btn btn-success">ยืนยัน</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="p-2">
-                                    <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addtime" id="fetchDataBtn"><i
-                                            class="bi bi-calendar-plus mx-2"></i>ตั้งเวลาเปิด - ปิด</button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#ctime" id="fetchCancelBtn"><i
-                                            class="bi bi-calendar-x mx-2"></i>ยกเลิกตั้งเวลา</button>
-                                </div>
-                                <!-- modal addtime -->
-                                <div class="modal fade" id="addtime" tabindex="-1" aria-labelledby="addtimeLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="addtime">ตั้งเวลาเปิด-ปิด</h1>
-                                                <button type="button" class="btn-close btn-close-white"
-                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form action="/addtime" method="post"
-                                                enctype="application/x-www-form-urlencoded">
-                                                <div class="container p-4">
-                                                    <div class="mb-4">
-                                                        <div id="unique-checkbox"
-                                                            class="checkbox-wrapper-35 d-flex align-items-center">
-                                                            <input class="switch form-check-input me-2" type="checkbox"
-                                                                id="ch_addtime" name="switchStatus" value="private">
-                                                            <label for="ch_addtime" class="form-check-label">
-                                                                <span class="switch-x-text">สถานะ: </span>
-                                                                <span class="switch-x-toggletext">
-                                                                    <span
-                                                                        class="switch-x-unchecked text-danger">ปิด</span>
-                                                                    <span
-                                                                        class="switch-x-checked text-success">เปิด</span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-4">
-                                                        <label for="custom-date"
-                                                            class="form-label fw-bold">เลือกวัน:</label>
-                                                        <div class="d-flex flex-wrap gap-3">
-                                                            <div class="form-check">
-                                                                <input type="checkbox" id="select-all"
-                                                                    class="form-check-input"
-                                                                    onclick="toggleCheckboxes(this)">
-                                                                <label for="select-all"
-                                                                    class="form-check-label">ทุกวัน</label>
-                                                            </div>
-                                                            <% ['จันทร์', 'อังคาร' , 'พุธ' , 'พฤหัส' , 'ศุกร์' , 'เสาร์'
-                                                                , 'อาทิตย์' ].forEach((day, index)=> { %>
-                                                                <div class="form-check">
-                                                                    <input type="checkbox"
-                                                                        id="<%= ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'][index] %>"
-                                                                        name="days[]"
-                                                                        value="<%= ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'][index] %>"
-                                                                        class="form-check-input">
-                                                                    <label
-                                                                        for="<%= ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'][index] %>"
-                                                                        class="form-check-label">
-                                                                        <%= day %>
-                                                                    </label>
-                                                                </div>
-                                                                <% }); %>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-4">
-                                                        <label class="form-label fw-bold">เลือกเวลา:</label>
-                                                        <div class="input-group">
-                                                            <select class="form-select" id="hour-select" name="time"
-                                                                required>
-                                                                <% for (let i=0; i < 24; i++) { %>
-                                                                    <option
-                                                                        value="<%= i.toString().padStart(2, '0') %>">
-                                                                        <%= i.toString().padStart(2, '0' ) %>
-                                                                    </option>
-                                                                    <% } %>
-                                                            </select>
-                                                            <span class="input-group-text">:</span>
-                                                            <select class="form-select" id="minutes-select"
-                                                                name="minutes" required>
-                                                                <% for (let i=0; i < 60; i++) { %>
-                                                                    <option
-                                                                        value="<%= i.toString().padStart(2, '0') %>">
-                                                                        <%= i.toString().padStart(2, '0' ) %>
-                                                                    </option>
-                                                                    <% } %>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-4">
-                                                        <label for="switches"
-                                                            class="form-label fw-bold">เลือกสวิตช์ที่ต้องการตั้งเวลา:</label>
-                                                        <div id="switchesall" class="border p-3 rounded">
-                                                            <div id="modalContent">
-                                                                <% if (typeof switches !=='undefined' &&
-                                                                    switches.length> 0) { %>
-                                                                    <% switches.forEach(function(switchItem) { %>
-                                                                        <div class="form-check mb-2">
-                                                                            <input class="form-check-input"
-                                                                                type="checkbox" name="switches[]"
-                                                                                value="<%= switchItem.token %>|<%= switchItem.pin %>"
-                                                                                id="switch<%= switchItem.pin %>">
-                                                                            <label class="form-check-label"
-                                                                                for="switch<%= switchItem.pin %>">
-                                                                                สวิตช์ <%= switchItem.name %> (Pin <%=
-                                                                                        switchItem.pin %>)
-                                                                            </label>
-                                                                        </div>
-                                                                        <% }); %>
-                                                                            <% } else { %>
-                                                                                <p class="text-muted">ไม่พบสวิตช์</p>
-                                                                                <% } %>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">ยกเลิก</button>
-                                                    <button type="submit" class="btn btn-primary">ยืนยัน</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                            <div class="container-fluid mb-4">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-4 mb-2 mb-md-0 text-center">
+                                        <button type="button" onclick="generateToken()"
+                                            class="btn btn-success btn-block w-100" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-plus-square me-2" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z">
+                                                </path>
+                                                <path
+                                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4">
+                                                </path>
+                                            </svg>เพิ่มบอร์ด
+                                        </button>
+                                    </div>
+                                    <div class="col-12 col-md-4 mb-2 mb-md-0 text-center">
+                                        <button type="submit" class="btn btn-primary btn-block w-100"
+                                            data-bs-toggle="modal" data-bs-target="#addtime" id="fetchDataBtn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-calendar-plus me-2"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7">
+                                                </path>
+                                                <path
+                                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z">
+                                                </path>
+                                            </svg>ตั้งเวลาเปิด - ปิด
+                                        </button>
+                                    </div>
+                                    <div class="col-12 col-md-4 text-center">
+                                        <button type="button" class="btn btn-danger btn-block w-100"
+                                            data-bs-toggle="modal" data-bs-target="#ctime" id="fetchCancelBtn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-calendar-x me-2" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708">
+                                                </path>
+                                                <path
+                                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z">
+                                                </path>
+                                            </svg>ยกเลิกตั้งเวลา
+                                        </button>
                                     </div>
                                 </div>
-                                <!-- Modal for cancelling the schedule -->
-                                <div class="modal fade" id="ctime" tabindex="-1" aria-labelledby="ctimeLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="ctimeLabel">ยกเลิกการตั้งเวลา</h5>
+                            </div>
+
+                            <!-- โมดัลเพิ่มบอร์ด -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content border-0 shadow">
+                                        <form action="/addBoard" method="POST" novalidate>
+                                            <div class="modal-header bg-primary text-white">
+                                                <h5 class="modal-title" id="exampleModalLabel">
+                                                    <i class="bi bi-plus-circle-fill me-2"></i>เพิ่มบอร์ดใหม่
+                                                </h5>
                                                 <button type="button" class="btn-close btn-close-white"
                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form action="/cancelTime" method="post"
-                                                enctype="application/x-www-form-urlencoded">
-                                                <div class="modal-body">
-                                                    <div id="unique-checkbox" class="checkbox-wrapper-35 mb-4">
-                                                        <input class="switch" type="checkbox" id="ch_cancelTime"
-                                                            name="switchStatus" value="private">
-                                                        <label for="ch_cancelTime" class="d-flex align-items-center">
-                                                            <span class="switch-x-text me-2">สถานะ: </span>
-                                                            <span class="switch-x-toggletext">
-                                                                <span class="switch-x-unchecked"><span
-                                                                        class="switch-x-hiddenlabel">ปิด:
-                                                                    </span>ปิด</span>
-                                                                <span class="switch-x-checked"><span
-                                                                        class="switch-x-hiddenlabel">เปิด:
-                                                                    </span>เปิด</span>
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="mb-4">
-                                                        <label class="form-label fw-bold">เลือกวัน:</label>
-                                                        <div class="d-flex flex-wrap gap-2">
+                                            <div class="modal-body p-4">
+                                                <input type="hidden" name="user_email" id="user_email"
+                                                    value="<%= username %>">
+                                                <input type="hidden" name="tokenboard" id="tokenboard" value="">
+                                                <div class="mb-4">
+                                                    <label for="recipient-name" class="form-label fw-bold">
+                                                        <i class="bi bi-tag-fill me-2"></i>ชื่อบอร์ด
+                                                    </label>
+                                                    <input type="text" name="switchname"
+                                                        class="form-control form-control-lg" id="recipient-name"
+                                                        placeholder="กรอกชื่อบอร์ด" required>
+                                                    <small class="form-text text-muted mt-2">
+                                                        <i class="bi bi-info-circle-fill me-1"></i>ระบุชื่อบอร์ด
+                                                        (ชื่อห้องของสวิตช์)
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer bg-light">
+                                                <button type="button" class="btn btn-outline-secondary"
+                                                    data-bs-dismiss="modal">
+                                                    <i class="bi bi-x-circle me-2"></i>ยกเลิก
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="bi bi-check-circle me-2"></i>ยืนยันการเพิ่มบอร์ด
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- โมดัลตั้งเวลา -->
+                            <div class="modal fade" id="addtime" tabindex="-1" aria-labelledby="addtimeLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary text-white">
+                                            <h5 class="modal-title" id="addtimeLabel"><i
+                                                    class="bi bi-clock me-2"></i>ตั้งเวลาเปิด-ปิด</h5>
+                                            <button type="button" class="btn-close btn-close-white"
+                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="/addtime" method="post"
+                                            enctype="application/x-www-form-urlencoded">
+                                            <div class="modal-body">
+                                                <div class="alert alert-info" role="alert">
+                                                    <i class="bi bi-info-circle-fill me-2"></i>คำแนะนำ: กรุณาเลือกวัน
+                                                    เวลา และสวิตช์ที่ต้องการตั้งเวลาให้ครบถ้วน
+                                                </div>
+                                                <div class="mb-4" id="unique-checkbox">
+                                                    <input class="switch" type="checkbox" id="ch_addtime"
+                                                        name="switchStatus" value="private">
+                                                    <label for="ch_addtime">
+                                                        <span class="switch-x-text">สถานะ:</span>
+                                                        <span class="switch-x-toggletext">
+                                                            <span class="switch-x-unchecked"><span class="text-danger"
+                                                                    id="statusText">ปิด</span></span>
+                                                            <span class="switch-x-checked"><span class="text-success"
+                                                                    id="statusText">เปิด</span></span>
+                                                        </span>
+                                                        <span class="switch-x-hiddenlabel">สถานะการตั้งเวลา</span>
+                                                    </label>
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label class="form-label fw-bold"><i
+                                                            class="bi bi-calendar-week me-2"></i>เลือกวัน:</label>
+                                                    <div class="d-flex flex-wrap gap-2">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="select-all" onclick="toggleCheckboxes(this)">
+                                                            <label class="form-check-label"
+                                                                for="select-all">ทุกวัน</label>
+                                                        </div>
+                                                        <% ['จันทร์', 'อังคาร' , 'พุธ' , 'พฤหัส' , 'ศุกร์' , 'เสาร์'
+                                                            , 'อาทิตย์' ].forEach((day, index)=> { %>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                    id="select-all" onclick="toggleCheckboxes(this)">
+                                                                    id="<%= ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'][index] %>"
+                                                                    name="days[]"
+                                                                    value="<%= ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'][index] %>">
                                                                 <label class="form-check-label"
-                                                                    for="select-all">ทุกวัน</label>
+                                                                    for="<%= ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'][index] %>">
+                                                                    <%= day %>
+                                                                </label>
                                                             </div>
-                                                            <% ['จันทร์', 'อังคาร' , 'พุธ' , 'พฤหัส' , 'ศุกร์' , 'เสาร์'
-                                                                , 'อาทิตย์' ].forEach((day, index)=> { %>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox"
-                                                                        id="<%= day.toLowerCase() %>" name="days[]"
-                                                                        value="<%= ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'][index] %>">
-                                                                    <label class="form-check-label"
-                                                                        for="<%= day.toLowerCase() %>">
-                                                                        <%= day %>
-                                                                    </label>
-                                                                </div>
-                                                                <% }); %>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <label
-                                                            class="form-label fw-bold">เลือกสวิตช์ที่ต้องการยกเลิกการตั้งเวลา:</label>
-                                                        <div id="switchesCancel" class="border p-3 rounded">
-                                                            <div id="modalCancelContent">
-                                                                <% if (typeof switches !=='undefined' &&
-                                                                    switches.length> 0) { %>
-                                                                    <% switches.forEach(function(switchItem) { %>
-                                                                        <div class="form-check mb-2">
-                                                                            <input class="form-check-input"
-                                                                                type="checkbox" name="switchesCancel[]"
-                                                                                value="<%= switchItem.token %>|<%= switchItem.pin %>"
-                                                                                id="switchCancel<%= switchItem.pin %>">
-                                                                            <label class="form-check-label"
-                                                                                for="switchCancel<%= switchItem.pin %>">
-                                                                                สวิตช์ <%= switchItem.name %> (Pin <%=
-                                                                                        switchItem.pin %>)
-                                                                            </label>
-                                                                        </div>
-                                                                        <% }); %>
-                                                                            <% } else { %>
-                                                                                <p class="text-muted">ไม่พบสวิตช์</p>
-                                                                                <% } %>
-                                                            </div>
-                                                        </div>
+                                                            <% }); %>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-outline-secondary"
-                                                        data-bs-dismiss="modal">ยกเลิก</button>
-                                                    <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                                                <div class="mb-4">
+                                                    <label class="form-label fw-bold"><i
+                                                            class="bi bi-clock me-2"></i>เลือกเวลา:</label>
+                                                    <div class="input-group">
+                                                        <select class="form-select" id="hour-select" name="time"
+                                                            required>
+                                                            <% for (let i=0; i < 24; i++) { %>
+                                                                <option value="<%= i.toString().padStart(2, '0') %>">
+                                                                    <%= i.toString().padStart(2, '0' ) %>
+                                                                </option>
+                                                                <% } %>
+                                                        </select>
+                                                        <span class="input-group-text">:</span>
+                                                        <select class="form-select" id="minutes-select" name="minutes"
+                                                            required>
+                                                            <% for (let i=0; i < 60; i++) { %>
+                                                                <option value="<%= i.toString().padStart(2, '0') %>">
+                                                                    <%= i.toString().padStart(2, '0' ) %>
+                                                                </option>
+                                                                <% } %>
+                                                        </select>
+                                                    </div>
+                                                    <small class="text-muted">เลือกเวลาในรูปแบบ 24 ชั่วโมง</small>
                                                 </div>
-                                            </form>
+                                                <div>
+                                                    <label class="form-label fw-bold"><i
+                                                            class="bi bi-toggle-on me-2"></i>เลือกสวิตช์ที่ต้องการตั้งเวลา:</label>
+                                                    <div id="switchesall" class="border p-3 rounded">
+                                                        <div id="modalContent">
+                                                            <% if (typeof switches !=='undefined' && switches.length> 0)
+                                                                { %>
+                                                                <% switches.forEach(function(switchItem) { %>
+                                                                    <div class="form-check mb-2">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            name="switches[]"
+                                                                            value="<%= switchItem.token %>|<%= switchItem.pin %>"
+                                                                            id="switch<%= switchItem.pin %>">
+                                                                        <label class="form-check-label"
+                                                                            for="switch<%= switchItem.pin %>">
+                                                                            สวิตช์ <%= switchItem.name %> (Pin <%=
+                                                                                    switchItem.pin %>)
+                                                                        </label>
+                                                                    </div>
+                                                                    <% }); %>
+                                                                        <% } else { %>
+                                                                            <p class="text-muted">ไม่พบสวิตช์</p>
+                                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                    <small
+                                                        class="text-muted">เลือกสวิตช์ที่คุณต้องการตั้งเวลาเปิด-ปิด</small>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal"><i
+                                                        class="bi bi-x-circle me-2"></i>ยกเลิก</button>
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="bi bi-check-circle me-2"></i>ยืนยัน</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- โมดัลยกเลิกการตั้งเวลา -->
+                            <div class="modal fade" id="ctime" tabindex="-1" aria-labelledby="ctimeLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary text-white">
+                                            <h5 class="modal-title" id="ctimeLabel"><i
+                                                    class="bi bi-clock-history me-2"></i>ยกเลิกการตั้งเวลา</h5>
+                                            <button type="button" class="btn-close btn-close-white"
+                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
+                                        <form action="/cancelTime" method="post"
+                                            enctype="application/x-www-form-urlencoded">
+                                            <div class="modal-body">
+                                                <div class="alert alert-info" role="alert">
+                                                    <i class="bi bi-info-circle-fill me-2"></i>คำแนะนำ:
+                                                    กรุณาเลือกวันและสวิตช์ที่คุณต้องการยกเลิกการตั้งเวลาให้ครบถ้วน
+                                                </div>
+                                                <div class="mb-4" id="unique-checkbox">
+                                                    <input class="switch" type="checkbox" id="ch_cancelTime"
+                                                        name="switchStatus" value="private">
+                                                    <label for="ch_cancelTime">
+                                                        <span class="switch-x-text">สถานะ:</span>
+                                                        <span class="switch-x-toggletext">
+                                                            <span class="switch-x-unchecked"><span class="text-danger"
+                                                                    id="cancelStatusText">ปิด</span></span>
+                                                            <span class="switch-x-checked"><span class="text-success"
+                                                                    id="cancelStatusText">เปิด</span></span>
+                                                        </span>
+                                                        <span
+                                                            class="switch-x-hiddenlabel">สถานะการยกเลิกการตั้งเวลา</span>
+                                                    </label>
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label class="form-label fw-bold"><i
+                                                            class="bi bi-calendar-week me-2"></i>เลือกวัน:</label>
+                                                    <div class="d-flex flex-wrap gap-2">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="select-all-cancel" onclick="toggleCheckboxes(this)">
+                                                            <label class="form-check-label"
+                                                                for="select-all-cancel">ทุกวัน</label>
+                                                        </div>
+                                                        <% ['จันทร์', 'อังคาร' , 'พุธ' , 'พฤหัส' , 'ศุกร์' , 'เสาร์'
+                                                            , 'อาทิตย์' ].forEach((day, index)=> { %>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="<%= day.toLowerCase() %>-cancel" name="days[]"
+                                                                    value="<%= ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'][index] %>">
+                                                                <label class="form-check-label"
+                                                                    for="<%= day.toLowerCase() %>-cancel">
+                                                                    <%= day %>
+                                                                </label>
+                                                            </div>
+                                                            <% }); %>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label class="form-label fw-bold"><i
+                                                            class="bi bi-toggle-on me-2"></i>เลือกสวิตช์ที่ต้องการยกเลิกการตั้งเวลา:</label>
+                                                    <div id="switchesCancel" class="border p-3 rounded">
+                                                        <div id="modalCancelContent">
+                                                            <% if (typeof switches !=='undefined' && switches.length> 0)
+                                                                { %>
+                                                                <% switches.forEach(function(switchItem) { %>
+                                                                    <div class="form-check mb-2">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            name="switchesCancel[]"
+                                                                            value="<%= switchItem.token %>|<%= switchItem.pin %>"
+                                                                            id="switchCancel<%= switchItem.pin %>">
+                                                                        <label class="form-check-label"
+                                                                            for="switchCancel<%= switchItem.pin %>">
+                                                                            สวิตช์ <%= switchItem.name %> (Pin <%=
+                                                                                    switchItem.pin %>)
+                                                                        </label>
+                                                                    </div>
+                                                                    <% }); %>
+                                                                        <% } else { %>
+                                                                            <p class="text-muted">ไม่พบสวิตช์</p>
+                                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                    <small
+                                                        class="text-muted">เลือกสวิตช์ที่คุณต้องการยกเลิกการตั้งเวลา</small>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal"><i
+                                                        class="bi bi-x-circle me-2"></i>ยกเลิก</button>
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="bi bi-check-circle me-2"></i>ยืนยัน</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -481,26 +515,51 @@
                     </main>
                 </div>
             </div>
-            <!-- Modal -->
+            <!-- Modal แจ้งเตือน -->
             <% if (successMessage) { %>
                 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
                     aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="successModalLabel">Success</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow-lg">
+                            <div class="modal-header bg-gradient-primary text-white border-0">
+                                <h5 class="modal-title" id="successModalLabel">
+                                    <i class="bi bi-bell-fill me-2 animate__animated animate__swing"></i>แจ้งเตือน
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="ปิด"></button>
                             </div>
-                            <div class="modal-body">
-                                <%= successMessage %>
+                            <div class="modal-body bg-light">
+                                <div class="text-center py-4">
+                                    <div class="mb-4">
+                                        <i class="bi bi-lightbulb-fill text-warning animate__animated animate__pulse"
+                                            style="font-size: 5rem;margin-bottom: 50px; margin-right: 60px;"></i>
+                                    </div>
+                                    <p class="lead fw-bold mb-0 animate__animated animate__fadeInUp mt-4">
+                                        <%= successMessage %>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <div class="modal-footer border-0 justify-content-center">
+                                <button type="button"
+                                    class="btn btn-lg btn-primary rounded-pill px-4 animate__animated animate__fadeInUp animate__delay-1s"
+                                    data-bs-dismiss="modal">รับทราบ</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
+                        setTimeout(function () {
+                            var modalElement = document.querySelector('#successModal .modal-dialog');
+                            modalElement.classList.add('animate__animated', 'animate__zoomOut');
+                            setTimeout(function () {
+                                successModal.hide();
+                            }, 1000);
+                        }, 3000);
+                    });
+                </script>
                 <% } %>
 
                     <script>
@@ -593,7 +652,46 @@
                             });
                         });
 
+                        function updateBoardStatus(token) {
+                            fetch(`/boardStatus/${token}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    const statusElement = document.getElementById(`boardStatus${token}`);
+                                    if (statusElement) {
+                                        if (data.isOnline) {
+                                            statusElement.textContent = 'ออนไลน์';
+                                            statusElement.className = 'badge bg-success';
+                                        } else {
+                                            statusElement.textContent = 'ออฟไลน์';
+                                            statusElement.className = 'badge bg-danger';
+                                        }
 
+                                        // แสดงเวลาล่าสุดที่บอร์ดออนไลน์
+                                        if (data.lastSeen) {
+                                            const lastSeenDate = new Date(data.lastSeen);
+                                            statusElement.title = `ออนไลน์ล่าสุด: ${lastSeenDate.toLocaleString()}`;
+                                        }
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
+                        }
+
+                        function updateAllBoardStatuses() {
+                            fetch('/api/boards')
+                                .then(response => response.json())
+                                .then(boards => {
+                                    boards.forEach(board => {
+                                        updateBoardStatus(board.token);
+                                    });
+                                })
+                                .catch(error => console.error('Error fetching boards:', error));
+                        }
+
+                       
+                        setInterval(updateAllBoardStatuses, 500);
+
+                        // เรียกใช้ครั้งแรกทันทีเมื่อโหลดหน้า
+                        updateAllBoardStatuses();
 
                         /* ส่วนของการแสดงผลสวิตช์ และควบคุมการเปิดปิด */
 
@@ -609,220 +707,259 @@
                                     for (const board of boards) {
                                         const cardHTML = `
                         <div class="container">
-                            <div class="container my-3">
-                                
-                                    <div class="d-flex justify-content-between mt-5">
-                                        <h3 >${board.name}</h3>
-                                        <div class="dropdown">
-                                        <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="bi bi-list"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#tokenModal${board.id_board}">Token</button>
-                                            </li>
-                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#addSwitchModal${board.id_board}">เพิ่มสวิตช์</button></li>
-                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#deleteBoardModal${board.id_board}">ลบบอร์ด</button></li>
-                                        </ul>
+                            <div class="card my-3 shadow">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h3 class="card-title mb-2">${board.name}</h3>
+                                            <p class="mb-0">
+                                                สถานะ: <span id="boardStatus${board.token}" class="badge bg-secondary">กำลังตรวจสอบ...</span>
+                                            </p>
+                                        </div>
+                                        <div class="btn-group mt-2 mt-md-0">
+                                            <form action="/oncontroller" method="POST" class="me-2">
+                                                <input type="hidden" name="token" value="${board.token}">
+                                                <button type="submit" class="btn btn-outline-success">
+                                                    <i class="bi bi-lightbulb-fill"></i> เปิดไฟทั้งหมด
+                                                </button>
+                                            </form>
+                                            <form action="/offcontroller" method="POST" class="me-2">
+                                                <input type="hidden" name="token" value="${board.token}">
+                                                <button type="submit" class="btn btn-outline-danger">
+                                                    <i class="bi bi-lightbulb-off-fill"></i> ปิดไฟทั้งหมด
+                                                </button>
+                                            </form>
+                                            <div class="dropdown">
+                                                <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-gear"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#tokenModal${board.id_board}"><i class="bi bi-key"></i> โทเค็น</button></li>
+                                                    <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editBoardModal${board.token}"><i class="bi bi-pencil-square"></i> แก้ไขบอร์ด</button></li>
+                                                    <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#addSwitchModal${board.id_board}"><i class="bi bi-plus-circle"></i> เพิ่มสวิตช์</button></li>
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li><button class="dropdown-item text-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteBoardModal${board.id_board}"><i class="bi bi-trash"></i> ลบบอร์ด</button></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="modal fade" id="tokenModal${board.id_board}" tabindex="-1" aria-labelledby="tokenModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="tokenModalLabel">โทเค็นของบอร์ด</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="ปิด"></button>
-                                                </div>
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-responsive">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th class="align-middle">ชื่อสวิตช์</th>
+                                                    <th class="align-middle text-center">สถานะ</th>
+                                                    <th class="align-middle">เวลาเปิด/ปิด</th>
+                                                    <th class="align-middle">การใช้พลังงาน</th>
+                                                    <th class="align-middle">ตัวเลือก</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="SwitchAll${board.id_board}" class="text-center">
+                                                <!-- เนื้อหาสวิตช์จะถูกเพิ่มที่นี่ -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modals -->
+                        ${generateModals(board)}
+                    `;
+                                        switchControl.insertAdjacentHTML('beforeend', cardHTML);
+                                        await populateSwitches(board);
+                                    }
+                                } else {
+                                    switchControl.innerHTML = '<div class="alert alert-info">ไม่พบข้อมูลบอร์ด</div>';
+                                }
+                            } catch (error) {
+                                console.error('Error fetching board or switch data:', error);
+                                switchControl.innerHTML = '<div class="alert alert-danger">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>';
+                            }
+                        });
+
+                        function generateModals(board) {
+                            return `
+                                <!-- Modal Edit Board -->
+                                <div class="modal fade" id="editBoardModal${board.token}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">แก้ไขบอร์ด : ${board.name}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="editBoardForm${board.token}" action="/editBoard" method="POST">
+                                                    <input type="hidden" name="token" value="${board.token}">
+                                                    <div class="mb-3">
+                                                        <label for="boardName${board.token}" class="form-label">ชื่อบอร์ด</label>
+                                                        <input type="text" class="form-control" id="boardName${board.token}" name="name" value="${board.name}" required>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                                                        <button type="submit" class="btn btn-primary">บันทึกการแก้ไข</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal Delete Board -->
+                                <div class="modal fade" id="deleteBoardModal${board.id_board}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">ลบบอร์ด</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="/DELETE_board" method="POST">
                                                 <div class="modal-body">
-                                                    <p>โทเค็นของบอร์ดนี้คือ:</p>
-                                                    <div class="input-group mb-3">
-                                                        <input type="text" class="form-control" value="${board.token}" id="modalTokenInput${board.id_board}" readonly>
-                                                        <button class="btn btn-outline-secondary" type="button" onclick="copyTokenToClipboard('${board.token}')">
-                                                            <i class="bi bi-clipboard"></i> คัดลอก
-                                                        </button>
+                                                    <input type="hidden" name="token" value="${board.token}">
+                                                    <p>คุณยืนยันที่จะลบบอร์ดหรือไม่ ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                                                    <button type="submit" class="btn btn-danger">ยืนยัน</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal Token -->
+                                <div class="modal fade" id="tokenModal${board.id_board}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">โทเค็นของบอร์ด</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>โทเค็นของบอร์ดนี้คือ:</p>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" value="${board.token}" id="modalTokenInput${board.id_board}" readonly>
+                                                    <button class="btn btn-outline-secondary" type="button" onclick="copyTokenToClipboard('${board.token}')">
+                                                        <i class="bi bi-clipboard"></i> คัดลอก
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal Add Switch -->
+                                <div class="modal fade" id="addSwitchModal${board.id_board}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">เพิ่มสวิตช์</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="/addSwitch" method="POST">
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="token" value="${board.token}">
+                                                    <div class="mb-3">
+                                                        <label for="nameSw" class="form-label">ชื่อสวิตช์</label>
+                                                        <input type="text" class="form-control" name="nameSw" id="nameSw" placeholder="กรอกชื่อสวิตช์" required>
+                                                        <small class="form-text text-muted">ระบุชื่อสวิตช์เพื่อช่วยจำ เช่น "ไฟแถว 1"</small>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="watt" class="form-label">กำลังการกินไฟ (วัตต์)</label>
+                                                        <input type="number" class="form-control" id="watt" name="watt" min="1" placeholder="กรอกกำลังไฟ" required>
+                                                        <small class="form-text text-muted">ระบุกำลังไฟที่หลอดไฟกิน</small>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="pinid${board.id_board}" class="form-label">เลือกพิน</label>
+                                                        <select class="form-select" name="pinid" id="pinid${board.id_board}" required>
+                                                            <option value="">เลือกพิน</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                                                    <button type="submit" class="btn btn-primary">เพิ่มสวิตช์</button>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>                  
-
-                                    <div class="modal fade" id="deleteBoardModal${board.id_board}" tabindex="-1" aria-labelledby="deleteBoardLabel"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="deleteBoardLabel">ลบบอร์ด</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <form action="/DELETE_board" method="POST">
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="token" value="${board.token}">
-                                                        <p>คุณยืนยันที่จะลบบอร์ดหรือไม่ ?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">ยกเลิก</button>
-                                                        <button type="submit" class="btn btn-danger">ยืนยัน</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal fade" id="addSwitchModal${board.id_board}" tabindex="-1" aria-labelledby="addSwitchLabel"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="addSwitchLabel">เพิ่มสวิตช์</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <form action="/addSwitch" method="POST">
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="token" value="${board.token}">
-                                                        <div>
-                                                            <label for="nameSw" class="form-label">ชื่อสวิตช์</label>
-                                                            <input type="text" class="form-control" name="nameSw" id="nameSw"
-                                                                aria-describedby="helpId" placeholder="กรอกชื่อสวิตช์" />
-                                                            <small id="helpId" class="form-text text-muted">ระบุชื่อสวิตช์เพื่อช่วยจำ เช่น "ไฟแถว 1"</small>
-                                                            <hr>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="watt" class="form-label">กำลังการกินไฟ</label>
-                                                            <input type="text" class="form-control form-control-sm" id="watt"
-                                                                aria-describedby="helpId" name="watt" placeholder="กรอกกำลังไฟ (watt)" />
-                                                            <small id="helpId" class="form-text text-muted">ระบุกำลังไฟที่หลอดไฟกิน</small>
-                                                            <hr>
-                                                        </div>
-                                                        <div class="input-group mb-3">
-                                                            <label for="pinid${board.id_board}" class="input-group-text">กรุณาเลือกพิน</label>
-                                                            <select class="form-select form-select-sm" aria-label="Small select example" name="pinid" id="pinid${board.id_board}">
-                                                                <optgroup label="เลือกพิน"></optgroup>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                                                        <button type="submit" class="btn btn-success">ยืนยัน</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-                                <div  >
-                                    <!-- หัวตารางบอกตำแหน่ง -->
-                                    <table class="table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">NameSwitch</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Time ON / OFF</th>
-                                            <th scope="col">Power Using</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="SwitchAll${board.id_board}"> <!-- เพิ่ม <tbody> เพื่อรองรับ <tr> ภายใน -->
-                                        <!-- เนื้อหาเพิ่มเติมที่จะแสดง -->
-                                    </tbody>
-                                    </div>
-                            </div>
-                        </div>
-                    `;
-                                        switchControl.insertAdjacentHTML('beforeend', cardHTML);
-                                        const dayonoff = await fetch(`/dayonoff`);
-
-                                        // Convert the response to JSON
-                                        const resday = await dayonoff.json();
-
-                                        // Access the currentDay and currentDayoff from the JSON response
-                                        const day = resday.currentDay;
-                                        const dayoff = resday.currentDayoff;
-                                        const responseSwitch = await fetch(`/getSwitch1/${board.token}`);
-                                        const switches = await responseSwitch.json();
-                                        const switchAll = document.getElementById(`SwitchAll${board.id_board}`);
-                                        console.log(responseSwitch.currentDay)
-                                        if (switches.length > 0) {
-                                            const usedPins = switches.map(switchItem => switchItem.pin);
-
-                                            switches.forEach(switchItem => {
-                                                const switchHTML = `
-                           
-                                                        <!-- เพิ่มสวิตช์แล้วจะเพิ่มส่วนนี้ -->
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">${switchItem.name}</th>
-                                        <td>
-                                        <div>
-                                            <form action="/controller1" method="POST">
-                                            <input type="hidden" name="token" value="${switchItem.token}">
-                                            <div class="checkbox-wrapper-8">
-                                                <input class="tgl tgl-skewed" id="cb4-9-${switchItem.pin}${switchItem.token}" type="checkbox"
-                                                name="status" value="1" ${switchItem.status == 1 ? 'checked' : ''}
-                                                onchange="this.form.submit()" />
-                                                <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON"
-                                                for="cb4-9-${switchItem.pin}${switchItem.token}"></label>
-                                            </div>
-                                            <input type="hidden" name="pinname" value="${switchItem.pin}">
                                             </form>
                                         </div>
-                                        </td>
-                                        <td>
-                                            <span style="color: green;">${switchItem[day]}</span><br>
-                                            <span style="color: red;">${switchItem[dayoff]}</span>
-                                        </td>
-                                        <td>${Math.round(switchItem.PowerUsing * 1000) / 1000}</td>
+                                    </div>
+                                </div>
+                            `;
+                        }
 
-                                        <td>
-                                        <!-- delete sw btn -->
-                                        <div class="dropdown">
-                                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="bi bi-list"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#editSwitchModal${switchItem.pin}${board.token}">แก้ไขสวิตช์</button></li>
-                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#addSw2${switchItem.pin}${board.token}">ลบสวิตช์</button></li>
-                                            </ul>
-                                            <div class="modal fade" id="addSw2${switchItem.pin}${board.token}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                            aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h1 class="modal-title fs-5" id="addSw">ลบสวิตช์ ${switchItem.pin}</h1>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                            aria-label="Close"></button>
-                                                                    </div>
-                                                                    <form action="/DELETE_Sw" method="POST">
-                                                                        <div class="modal-body">
-                                                                            <input type="hidden" name="token" value="${board.token}">
-                                                                            <input type="hidden" name="pin" value="${switchItem.pin}">
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary"
-                                                                                data-bs-dismiss="modal">ยกเลิก</button>
-                                                                            <button type="submit" class="btn btn-primary">ลบสวิตช์</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
+                        async function populateSwitches(board) {
+                            try {
+                                const dayonoff = await fetch(`/dayonoff`);
+                                const resday = await dayonoff.json();
+                                const day = resday.currentDay;
+                                const dayoff = resday.currentDayoff;
+                                const responseSwitch = await fetch(`/getSwitch1/${board.token}`);
+                                const switches = await responseSwitch.json();
+                                const switchAll = document.getElementById(`SwitchAll${board.id_board}`);
+
+                                if (switches.length > 0) {
+                                    switches.forEach(switchItem => {
+                                        const switchHTML = `
+                                            <tr>
+                                                <td>${switchItem.name}</td>
+                                                <td class="text-center align-middle">
+                                                    <form action="/controller1" method="POST" class="d-flex justify-content-center align-items-center">
+                                                        <input type="hidden" name="token" value="${switchItem.token}">
+                                                        <input type="hidden" name="pinname" value="${switchItem.pin}">
+                                                        <div class="checkbox-wrapper-8">
+                                                            <input class="tgl tgl-skewed" id="cb4-9-${switchItem.pin}${switchItem.token}" type="checkbox"
+                                                            name="status" value="1" ${switchItem.status == 1 ? 'checked' : ''}
+                                                            onchange="this.form.submit()" />
+                                                            <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON"
+                                                            for="cb4-9-${switchItem.pin}${switchItem.token}"></label>
                                                         </div>
-                                        </div>
-                                        <!-- Modal Edit Switch -->
-                                <div class="modal fade" id="editSwitchModal${switchItem.pin}${board.token}" tabindex="-1" aria-labelledby="editSwitchModalLabel${switchItem.pin}${board.token}" aria-hidden="true">
+                                                    </form>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div>
+                                                        <span class="badge bg-success me-1 fs-8">เปิด: ${switchItem[day]}</span>
+                                                        <span class="badge bg-danger fs-8">ปิด: ${switchItem[dayoff]}</span>
+                                                    </div>
+                                                </td>
+                                                <td>${Math.round(switchItem.PowerUsing * 1000) / 1000} หน่วย</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="bi bi-gear-fill"></i> ตั้งค่า
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editSwitchModal${switchItem.pin}${board.token}"><i class="bi bi-pencil-square"></i> แก้ไขสวิตช์</button></li>
+                                                            <li><hr class="dropdown-divider"></li>
+                                                            <li><button class="dropdown-item text-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteSwitchModal${switchItem.pin}${board.token}"><i class="bi bi-trash-fill"></i> ลบสวิตช์</button></li>
+                                                        </ul>
+                                                    </div>
+                                                     ${generateSwitchModals(switchItem, board)}
+                                                </td>
+                                                
+                                            </tr>
+                                           
+                                        `;
+                                        switchAll.insertAdjacentHTML('beforeend', switchHTML);
+                                    });
+
+                                    updatePinDropdown(board.id_board, switches);
+                                } else {
+                                    updatePinDropdown(board.id_board, switches);
+                                    switchAll.innerHTML = '<tr><td colspan="5" class="text-center">ไม่พบข้อมูลสวิตช์</td></tr>';
+                                }
+                            } catch (error) {
+                                console.error('Error populating switches:', error);
+                            }
+                        }
+
+                        function generateSwitchModals(switchItem, board) {
+                            return `
+                                <!-- Modal Edit Switch -->
+                                <div class="modal fade" id="editSwitchModal${switchItem.pin}${board.token}" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -835,7 +972,11 @@
                                                     <input type="hidden" name="pin" value="${switchItem.pin}">
                                                     <div class="mb-3">
                                                         <label for="switchName${switchItem.pin}${board.token}" class="form-label">ชื่อสวิตช์</label>
-                                                        <input type="text" class="form-control" id="switchName${switchItem.pin}${board.token}" name="name" value="${switchItem.name}" required>
+                                                        <input type="text" class="form-control" id="switchName${switchItem.pin}${board.token}" name="name" value="${switchItem.name}" maxlength="50" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="switchwatt${switchItem.pin}${board.token}" class="form-label">กำลังการกินไฟ (วัตต์)</label>
+                                                        <input type="number" class="form-control" id="switchwatt${switchItem.pin}${board.token}" name="watt" value="${switchItem.watt}" min="1" required>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
@@ -846,36 +987,51 @@
                                         </div>
                                     </div>
                                 </div>
-                               
 
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                              
-             
+                                <!-- Modal Delete Switch -->
+                                <div class="modal fade" id="deleteSwitchModal${switchItem.pin}${board.token}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">ลบสวิตช์ ${switchItem.name}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="/DELETE_Sw" method="POST">
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="token" value="${board.token}">
+                                                    <input type="hidden" name="pin" value="${switchItem.pin}">
+                                                    <p>คุณแน่ใจหรือไม่ที่จะลบสวิตช์นี้?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                                                    <button type="submit" class="btn btn-danger">ลบสวิตช์</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             `;
-                                                switchAll.insertAdjacentHTML('beforeend', switchHTML);
-                                            });
+                        }
 
-                                            const pinDropdown = document.getElementById(`pinid${board.id_board}`);
-                                            [1, 2, 3].forEach(pin => {
-                                                if (usedPins.includes(pin)) {
-                                                    const option = pinDropdown.querySelector(`option[value="${pin}"]`);
-                                                    if (option) {
-                                                        option.remove();
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                } else {
-                                    switchControl.innerHTML = '<p>ไม่พบข้อมูลบอร์ด</p>';
-                                }
-                            } catch (error) {
-                                console.error('Error fetching board or switch data:', error);
+                        function updatePinDropdown(boardId, switches) {
+                            const pinDropdown = document.getElementById(`pinid${boardId}`);
+                            const usedPins = switches.map(switchItem => switchItem.pin);
+
+                            // เคลียร์ตัวเลือกทั้งหมดยกเว้นตัวเลือกแรก (เลือกพิน)
+                            while (pinDropdown.options.length > 1) {
+                                pinDropdown.remove(1);
                             }
-                        });
+
+                            // เพิ่มตัวเลือกสำหรับพินที่ยังไม่ถูกใช้
+                            [1, 2, 3].forEach(pin => {
+                                if (!usedPins.includes(pin)) {
+                                    const option = document.createElement('option');
+                                    option.value = pin;
+                                    option.textContent = `พิน ${pin}`;
+                                    pinDropdown.appendChild(option);
+                                }
+                            });
+                        }
                         /* ส่วนของการสร้างtoken */
                         async function generateToken() {
                             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -902,9 +1058,9 @@
                         document.addEventListener('DOMContentLoaded', function () {
                         <% if (successMessage) { %>
                             var successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                                                successModal.show();
+                                successModal.show();
                         <% } %>
-                    });                      
+                    });
 
 
                     </script>
@@ -916,7 +1072,7 @@
                     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js"
                         integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp"
                         crossorigin="anonymous"></script>
-                    <script src="/Js/dashboard.js"></script>
+
 
         </body>
 

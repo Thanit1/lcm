@@ -2,44 +2,54 @@
     <nav class="navbar bg-body-tertiary sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
-                <img src="/lcm-logo.png" width="150" height="50" class="d-none d-sm-block" alt="Responsive Image">
+                <img src="/lcm-logo.png" width="150" height="50" class="d-none d-sm-block img-fluid" alt="LCM Logo">
             </a>
             <% if (typeof username !=='undefined' && username) { %>
                 <div class="d-flex justify-content-center flex-grow-1">
-                    <a href="/" class="nav-item me-3 text-decoration-none fw-bold text-primary hover-effect">
-                        <i class="bi bi-speedometer2 me-1"></i>แดชบอร์ด
+                    <a href="/index" class="nav-item text-decoration-none fw-bold text-info hover-effect mx-3 py-2 px-3 rounded-pill transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door me-2" viewBox="0 0 16 16">
+                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
+                        </svg>
+                        <span class="d-none d-md-inline">หน้าหลัก</span>
                     </a>
-                    <a href="/report" class="nav-item text-decoration-none fw-bold text-success hover-effect">
-                        <i class="bi bi-file-earmark-text me-1"></i>รายงาน
+                    <a href="/report" class="nav-item text-decoration-none fw-bold text-primary hover-effect mx-3 py-2 px-3 rounded-pill transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer2 me-2" viewBox="0 0 16 16">
+                            <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
+                            <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A8 8 0 0 1 0 10m8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3"/>
+                        </svg>
+                        <span class="d-none d-md-inline">แดชบอร์ด</span>
+                    </a>
+                    <a href="/title" class="nav-item text-decoration-none fw-bold text-success hover-effect mx-3 py-2 px-3 rounded-pill transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person me-2" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8 9a5 5 0 0 0-4.546 2.916.5.5 0 0 0 .832.554A4 4 0 0 1 8 10a4 4 0 0 1 3.714 2.47.5.5 0 0 0 .832-.554A5 5 0 0 0 8 9z"/>
+                        </svg>
+                        <span class="d-none d-md-inline">เกี่ยวกับเรา</span>
                     </a>
                 </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                <div class="offcanvas offcanvas-end shadow" tabindex="-1" id="offcanvasNavbar"
                     aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Options</h5>
+                    <div class="offcanvas-header bg-body-tertiary">
+                        <h5 class="offcanvas-title fw-bold" id="offcanvasNavbarLabel">เมนู</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-outline-secondary" aria-current="page" href="/"><i class="bi bi-house mx-3"></i>หน้าหลัก</a>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link btn btn-outline-primary" aria-current="page" href="/"><i class="bi bi-house me-2"></i>หน้าหลัก</a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link btn btn-outline-success" href="/report"><i class="bi bi-speedometer2 me-2"></i>แดชบอร์ด</a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a class="nav-link btn btn-outline-warning" href="/title"><i class="bi bi-table me-2"></i>เกี่ยวกับเรา</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-secondary" href="/profile"><i class="bi bi-person-lines-fill mx-3"></i>แก้ไขโปรไฟล์</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-outline-secondary" href="/"></i><i class="bi bi-speedometer2 mx-3"></i>แดชบอร์ด</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-outline-secondary" href="/report"><i class="bi bi-table mx-3 "></i>รายงาน</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-outline-danger" href="/logout"><i class="bi bi-box-arrow-right mx-3"></i>ออกจากระบบ</a>
+                                <a class="nav-link btn btn-outline-danger" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>ออกจากระบบ</a>
                             </li>
                         </ul>
                     </div>
@@ -47,8 +57,8 @@
                 <% } %>
                     <% if (typeof username==='undefined' || !username) { %>
                         <div>
-                            <a href="/login" type="button" class="btn btn-outline-primary me-2">Login</a>
-                            <a href="/register" type="button" class="btn btn-outline-primary">Sign-up</a>
+                            <a href="/login" type="button" class="btn btn-outline-primary me-2 rounded-pill">เข้าสู่ระบบ</a>
+                            <a href="/register" type="button" class="btn btn-primary rounded-pill">สมัครสมาชิก</a>
                         </div>
                         <% } %>
         </div>
@@ -137,5 +147,7 @@
                     d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
             </symbol>
         </svg>
+        
     </nav>
+       
 </header>
