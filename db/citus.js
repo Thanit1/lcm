@@ -9,13 +9,13 @@ const { Pool } = require('pg');
 }); */
 
 const dbConnection = new Pool({
-    user: 'lcmpj',
-     host: '20.2.211.25',
-    database: 'LCM',
-     password: '0656076916lcm',
-     port: 5432,
+    user: 'postgres',  // เอาช่องว่างที่ไม่จำเป็นออก
+    host: '172.25.11.151',
+    database: 'lcm',
+    password: '123456',
+    port: 5432,
+});
 
- });
 
 // ฟังก์ชันสำหรับตรวจสอบการเชื่อมต่อ
 async function checkConnection() {
