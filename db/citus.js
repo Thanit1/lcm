@@ -10,7 +10,7 @@ const { Pool } = require('pg');
 
 const dbConnection = new Pool({
     user: 'postgres',  // เอาช่องว่างที่ไม่จำเป็นออก
-    host: '172.25.11.151',
+    host: '172.25.11.195',
     database: 'lcm',
     password: '123456',
     port: 5432,
